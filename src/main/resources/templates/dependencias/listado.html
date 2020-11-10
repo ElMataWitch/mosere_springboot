@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Dependencias</title>
+</head>
+<body>
+	<div layout:fragment="body">
+		<div class="box">
+		    <div class="box-header with-border">
+		        <h3 class="box-title">Listado</h3>
+		    </div>
+		    <div class="box-body">
+		        <div class="rows">
+		            <div class="row">
+		                <div class="col-lg-12">
+		                    <div id="dFormulario" class="box-header with-border ocultar" style="display: none;">
+		                        <form role="form" id="fDependencias" th:action="@{/dependencias/guardar}" method="POST" data-fv-framework="bootstrap" 
+		                              data-fv-icon-valid="glyphicon glyphicon-ok" data-fv-icon-invalid="glyphicon glyphicon-remove" 
+		                              data-fv-icon-validating="glyphicon glyphicon-refresh">
+		                            <div class="row"> 
+		                                <div class="col-sm-1 ocultar" id="dId">
+		                                    <h6>Id</h6><input id="id" name="id" type="text" size="4" maxlength="4" class="form-control" data-fv-notempty="true">
+		                                </div>
+		                                <div class="col-sm-6">
+		                                    <h6>Descripción*</h6>
+		                                    <textarea rows="5" id="descripcion" name="descripcion" class="form-control" data-fv-notempty="true">
+		
+		                                    </textarea>
+		                                    <p>&nbsp;</p>                                            
+		                                    <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
+		                                </div>
+		                                <div id="dEstatus" class="col-sm-4">
+		                                    <h6>Estatus*</h6>
+		                                    <select id="estatus" name="estatus" class="form-control">
+		                                        <option value="AC">Activo</option>
+		                                        <option value="IN">Inactivo</option>
+		                                    </select>
+		                                </div>
+		                                <div id="dBotonesForm" class="col-sm-4">
+		                                    <h6>&nbsp;</h6>
+		                                    <button type="button" class="btn btn-success" id="bSalvaIfo"><i class="fa fa-floppy-o"> Salvar</i></button>
+		                                    <button type="button" class="btn btn-danger" id="bCancel"><i class="fa fa-ban"> Cancelar</i></button>
+		                                    
+		                                    <!-- solo para probar -->
+		                                    <p>&nbsp;</p>
+		                                    <input id="usuarioCaptura" name="usuarioCaptura" class="form-control" type="hidden" placeholder="Usuario" value="LCRUZL"/>
+		                                    <input id="usuarioEditor" name="usuarioEditor" class="form-control" type="hidden" placeholder="Usuario" value="LCRUZL"/>
+		                                    
+		                                </div>
+		
+		                            </div>
+		                        </form>
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="row">
+		                <div class="col-lg-12">
+		                    <div id="dContenido">
+		                        <table id="tListaDependencia" 
+		                               data-mobile-responsive="true"
+		                               data-locale="es-MX"
+		                               data-height="450"
+		                               data-pagination="false"
+		                               data-page-size="20"
+		                               data-page-list="[30, 50, 100]"
+		                               data-search="true"
+		                               data-toggle="false"
+		                               data-show-toggle="false"
+		                               data-resizable="true"
+		                               data-striped="true"
+		                               data-show-refresh="false"
+		                               data-show-footer="false"
+		                               data-show-export="true"                               
+		                               data-tableexport-display="always"
+		                               class="table table-bordered table-hover table-condensed">
+		                            <thead>
+		                                <tr>
+		                                    <th data-field="descripcion" data-sortable="true">DESCRIPCIÓN</th>
+		                                    <th data-field="estatus" data-sortable="true">ESTATUS</th>
+		                                    <th data-field="usuarioCaptura" data-sortable="true">USUARIO CAPTURO</th>
+		                                    <th data-field="fechaCaptura" data-sortable="true">FECHA CAPTURA</th>
+		                                    <th data-field="usuarioEditor" data-sortable="true">USUARIO ACTUALIZO</th>
+		                                    <th data-field="fechaEdicion" data-sortable="true">FECHA ACTUALIZO</th>
+		                                    <th data-field="ACCION" data-sortable="false" data-align="center" data-width="100" data-formatter="actionFormatter">ACCIONES</th>
+		                                </tr>
+		                            </thead>
+		                        </table>
+		                        <p>&nbsp;</p> 
+		                        <div id="dBotones">
+		                            <button type="button" class="btn btn-primary" id="bNuevo"><i class="fa fa-plus-square-o"> Nueva Dependencia</i></button>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div><!-- FIN class=box -->
+	</div>	
+	
+	<th:block layout:fragment="script">
+	<script th:src="@{/js/bootstrap/bootstrap-table.min.js}" type="text/javascript"></script>	
+	<script th:src="@{/js/bootstrap/bootstrap-table/locale/bootstrap-table-es-MX.min.js}" type="text/javascript"></script>	
+	<script th:src="@{/js/bootstrap/bootstrap-table/extensions/mobile/bootstrap-table-mobile.min.js}" type="text/javascript"></script>	
+	<script th:src="@{/js/bootstrap/bootstrap-table/extensions/fixed/bootstrap-table-fixed-columns.js}" type="text/javascript"></script>	
+	<script th:src="@{/js/bootstrap/bootstrap-table/extensions/export/bootstrap-table-export.min.js}" type="text/javascript"></script>	
+	<script th:src="@{/js/bootstrap/bootstrap-table/extensions/export/tableExport.js}" type="text/javascript"></script>	
+	<script th:src="@{/js/dependencias.js}" type="text/javascript"></script>
+		
+	</th:block>
+</body>
+</html>

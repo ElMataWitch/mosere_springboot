@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">	
+		
+	<!-- Bootstrap -->
+	<link rel="stylesheet" th:href="@{/css/bootstrap/bootstrap.min.css}" type="text/css" />
+	<!-- Font Awesome -->
+	<link rel="stylesheet" th:href="@{/css/fa/font-awesome.min.css}" type="text/css" />
+	<!-- Ionicons -->
+	<link rel="stylesheet" th:href="@{/css/ionicons/ionicons.min.css}"type="text/css" />
+	<!-- Theme style -->
+	<link rel="stylesheet" th:href="@{/css/AdminLTE.min.css}" type="text/css" />
+	<link rel="stylesheet" th:href="@{/css/skins/_all-skins.min.css}" type="text/css" />
+	<link rel="stylesheet" th:href="@{/css/bootstrap/bootbox.css}" type="text/css" />	
+	
+	<title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">MOSERE</title>
+	
+	<link rel="shortcut icon" type="image/x-icon" th:href="@{/img/favicon.png}" />
+	<link rel="stylesheet" th:href="@{/css/jquery/formValidation.min.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/estiloGeneral.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/bootstrap/fileinput.min.css}" type="text/css" />      
+    <link rel="stylesheet" th:href="@{/css/bootstrap/fileinput.min.css}"  type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/summernote/summernote.css}"  type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/bootstrap/select2.min.css}"  type="text/css"/>    
+    <link rel="stylesheet" th:href="@{/css/bootstrap/bootstrap-table.min.css}" type="text/css"/>
+	
+</head>
+<body id="body" class="hold-transition skin-blue-light sidebar-mini">		
+			<!--Header-->			
+				<div data-th-replace="layout/fragment-header"></div>			
+			<!--Header-->
+						
+			<!-- SideBar-->			
+				<div data-th-replace="layout/fragment-sidebar"></div>				
+			<!-- SideBar-->				
+			
+			<!-- View Content -->
+		    <section class="content">
+				<div class="box">
+				    <div layout:fragment="body">
+						<!-- Contenido de las paginas-->
+					</div>			    
+				</div>
+			<!-- View Content -->
+										
+			<!--Sidebar Control-->
+				<div data-th-replace="layout/fragment-sidebar-control"></div>
+			<!--Sidebar Control-->
+
+			<!--Footer-->
+			<div data-th-replace="layout/fragment-footer"></div>	
+			<!--Footer-->
+		
+			
+	<!-- jQuery -->
+	<script th:src="@{/js/jquery/jquery.min.js}" type="text/javascript"></script>
+	<!-- Bootstrap -->
+	<script th:src="@{/js/bootstrap/bootstrap.min.js}" type="text/javascript"></script>
+	<!-- Plugins -->
+	<script th:src="@{/js/bootstrap/bootstrap-notify.min.js}" type="text/javascript"></script>
+	<script th:src="@{/js/bootstrap/bootbox.min.js}" type="text/javascript"></script>
+	<script th:src="@{/js/jquery/jquery.blockUI.js}" type="text/javascript"></script>
+	<script th:src="@{/js/jquery/jquery.base64.min.js}" type="text/javascript"></script>
+	<script th:src="@{/js/jquery/jquery.slimscroll.min.js}" type="text/javascript"></script>
+	<script th:src="@{/js/extra/fastclick.js}" type="text/javascript"></script>
+	<script th:src="@{/js/app.min.js}" type="text/javascript"></script>
+	<script th:src="@{/js/adminlte.js}" type="text/javascript"></script>
+
+	<script th:src="@{/js/jquery/formValidation.min.js}" type="text/javascript"></script>
+	<script th:src="@{/js/jquery/formValidation/framework/bootstrap.js}" type="text/javascript"></script>
+	<script th:src="@{/js/jquery/formValidation/language/es_ES.js}" type="text/javascript"></script>
+        
+    <script th:src="@{/js/bootstrap/bootstrap-table.min.js}" type="text/javascript"></script>
+    <script th:src="@{/js/bootstrap/bootstrap-table/locale/bootstrap-table-es-MX.min.js}" type="text/javascript"></script>
+    <script th:src="@{/js/bootstrap/bootstrap-table/extensions/mobile/bootstrap-table-mobile.min.js}" type="text/javascript"></script>
+        
+	<script th:src="@{/js/jquery/jquery.mask.js}" type="text/javascript"></script>
+    <script th:src="@{/js/general.js}" type="text/javascript"></script>
+	<script th:src="@{/js/funGral.js}" type="text/javascript"></script>
+        
+    <script th:src="@{/js/bootstrap/fileinput/fileinput.min.js}" type="text/javascript"></script>
+    <script th:src="@{/js/bootstrap/fileinput/locales/es.js}" type="text/javascript"></script>
+    <script th:src="@{/js/bootstrap/fileinput/locales/es.js}" type="text/javascript"></script>
+        
+    <script th:src="@{/js/summernote/summernote.js}" type="text/javascript"></script>
+    <script th:src="@{/js/summernote/lang/summernote-es-ES.js}" type="text/javascript"></script>
+    <script th:src="@{/js/bootstrap/bootstrap3-typeahead.min.js}" type="text/javascript"></script>
+    <script th:src="@{/js/jquery/select2/select2.js}" type="text/javascript"></script>
+    <script th:src="@{/js/jquery/select2/i18n/es.js}" type="text/javascript"></script>
+    <script th:src="@{/js/extra/angular-base64.js}" type="text/javascript"></script>
+		
+	<!-- Optional JavaScript -->	
+	<th:block layout:fragment="script"></th:block>
+</body>
+</html>

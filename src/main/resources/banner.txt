@@ -1,0 +1,10 @@
+${AnsiBackground.WHITE}${AnsiColor.RED}
+                                                                                                 
+,--.   ,--.  ,-----.   ,---.   ,------. ,------.  ,------. 
+|   `.'   | '  .-.  ' '   .-'  |  .---' |  .--. ' |  .---' 
+|  |'.'|  | |  | |  | `.  `-.  |  `--,  |  '--'.' |  `--,  
+|  |   |  | '  '-'  ' .-'    | |  `---. |  |\  \  |  `---. 
+`--'   `--'  `-----'  `-----'  `------' `--' '--' `------' by EMW
+                                                                                                 
+Spring Boot ${spring-boot.version}
+${application.title} - ${application.formatted-version}${AnsiBackground.DEFAULT}

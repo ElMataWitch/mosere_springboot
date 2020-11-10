@@ -1,0 +1,47 @@
+<div class="wrapper">
+	<header class="main-header">	
+		<a href="#" class="logo">
+			<!-- mini logo for sidebar mini 50x50 pixels -->
+			<span class="logo-mini"><b>PEEQ</b></span>
+			<!-- logo for regular state and mobile devices -->
+			<span class="logo-lg"><b>MOSERE</b></span>
+		</a>		
+		<nav class="navbar navbar-static-top">			
+			<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
+			<div class="navbar-custom-menu">
+				<ul class="nav navbar-nav">
+										
+					<li class="dropdown user user-menu">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<img th:src="@{/img/user-128x128.png}" class="user-image" alt="Usuario" />
+							<span class="hidden-xs">eHermosillo</span> <!-- Falta Nombre de usuario desde BD -->
+						</a>
+						<ul class="dropdown-menu">
+							<!-- User image -->
+							<li class="user-header">
+								<img th:src="@{/img/user-128x128.png}" class="img-circle" alt="Usuario" />
+								<p>"eHermosillo"</p> <!-- Falta Nombre de usuario desde BD -->
+							</li>
+							<!-- Menu Footer-->
+							<li class="user-footer">
+								<div class="pull-left" style="display: none;">
+									<a href="#" class="btn btn-default btn-flat">Perfil</a>
+								</div>
+								<div class="pull-right">
+									<a th:href="@{/logout}" class="btn btn-danger btn-flat">Cerrar Sesi&#243;n</a>
+								</div>
+							</li>
+						</ul>
+					</li>											
+					<li>
+						<a th:href="@{#}" data-toggle="control-sidebar" style="display: true;"><i class="fa fa-gears"></i></a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
