@@ -3,7 +3,7 @@ var jdatos2 = null;
 function iniUsuarios() {
     $(".ocultar").hide();
     //actualiza();
-    tInfoUsuariosTodos("todos");
+    tInfoUsuariosTodos();
     actualiza();
 }
 
@@ -15,7 +15,7 @@ function botones() {
 
     $("#bInfoUsr").click(function () {
         var user = $("#usuario").val();
-        console.log(user);
+
         if (user.length > 4){
             tInfoUsuariolDAP(user);}
         else{
@@ -28,27 +28,28 @@ function botones() {
         $("#id").val("0");
         $("#dFormulario").show("slow");
         $("#usuario").focus();
-        $("#fUsuarios").attr("action",'/mosere/usuarios/guardar');        
+        $("#fUsuarios").attr("action",'/mosere/api/usuarios/guardar');        
+        $("#fUsuarios").attr("method",'POST');
     });
     
     $("#bCancel").click(function () {
         $("#dFormulario").hide("slow");
     });
 
-    /*
+    
     $('#fUsuarios').formValidation({
         excluded: [':disabled', ':hidden'],
         live: 'enabled',
         locale: 'es_ES'
     })
             .on('success.form.fv', function (e) {
-                // Prevent form submission
-                //e.preventDefault();
+                //Prevent form submission
+                e.preventDefault();
                 // You can get the form instance
-                //var $form = $(e.target);
+                var $form = $(e.target);
                 // and the FormValidation instance
-                //var fv = $form.data('formValidation');
-                //jajaxPost($(this));
+                var fv = $form.data('formValidation');
+                jajaxPost($(this));
             })
             .on('err.form.fv', function (e) {
                 e.preventDefault();
@@ -62,7 +63,7 @@ function botones() {
     });
     $('#tListaUsuario').on('search.bs.table', function (e) {
         iniUsuarios();
-    });-*/
+    });
 }
 
 function tInfoUsuariosTodos() {
@@ -120,9 +121,7 @@ function tInfoUsuariosTodos() {
 }//fin tInformacion
 
 function llenaTablaUsuarios(jdatos) {
-    if (jdatos != null) {
-        console.log("no es vacio");
-        console.log(JSON.stringify(jdatos));
+    if (jdatos != null) {        
         $("#tListaUsuario").bootstrapTable('load', jdatos.datos);
         $("#tListaUsuario").bootstrapTable('selectPage', 1);
         jdatos2 = jdatos;
@@ -140,12 +139,12 @@ function llenaTablaUsuarios(jdatos) {
     $(".bEdita").click(function () {
         llenaCamposEditar(dameFolio($(this).attr("id")));
         $("#dFormulario").show("slow");
-        $("#fUsuarios").attr("action",'/mosere/usuarios/actualizar');                
+        $("#fUsuarios").attr("action",'/mosere/api/usuarios/actualizar');        
+        $("#fUsuarios").attr("method",'PUT');
     });
 
     $(".bInfor").click(function () {
-        var user = dameFolio($(this).attr("id"));
-        console.log(user);
+        var user = dameFolio($(this).attr("id"));        
         tInfoUsuariolDAP(user);
     });
 }
@@ -174,8 +173,7 @@ function llenaCamposEditar(id) {
     var reg = null;
     
     for (var i = 0; i < jdatos2.datos.length; i++) {
-        reg = jdatos2.datos[i];
-        console.log(id);
+        reg = jdatos2.datos[i];    
         if (reg.idUsuarioMosere == id) {
             $("#id").val(reg.idUsuarioMosere);
             $("#usuario").val(reg.usuario);
@@ -187,22 +185,25 @@ function llenaCamposEditar(id) {
 }
 
 function jajaxPost(forma) {
-    var url = $(forma).attr('action');  //la url del action del formulario
-    var datos = $(forma).serialize(); // los datos del formulario
-    var dialog = null;
+    var url = $(forma).attr('action');
+    var method = $(forma).attr('method');
+    var parameters = {
+        "id" : $("#id").val(),
+        "usuario" : $("#usuario").val(),
+        "estatus" : $("#estatus").val(),
+        "usuarioCaptura" : $("#usuarioCaptura").val(),
+        "fechaCaptura" : $("#fechaCaptura").val(),
+        "usuarioEditor" : $("#usuarioEditor").val(),
+        "fechaEdicion" : $("#fechaEdicion").val()
+    }
+    //console.log(parameters);
     $.ajax({
-        beforeSend: function () {
-            dialog = bootbox.dialog({message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Cargando...</div>'});
-        },
-        cache: false,
-        complete: function () {
-            dialog.modal('hide');
-        },
-        // Definir codificación para el envío de datos
-        contentType: "application/x-www-form-urlencoded; charset=utf-8",
-        // Indicar que esperamos un código JSON como respuesta
+        timeout: 40000,
+        type: method,
+        url: url,
+        contentType: "application/json; charset=utf-8",
         dataType: "json",
-        // Manejador de errores cuando ocurra uno al hacer la petición
+        data: JSON.stringify(parameters),
         error: function ajaxError(peticion, tipoError, excepcion) {
             $("#divImgCargando").hide();
             if (tipoError == "timeout") {
@@ -220,22 +221,17 @@ function jajaxPost(forma) {
         scriptCharset: "utf-8",
         success: function (json) {
             if (json == "0") {
-                general.notify('<strong>Alerta</strong><br />', 'No se pudo actualizar la Dependencia', 'danger', true);
+                general.notify('<strong> Error!!</strong><br />', 'Ah ocurrido Un Error al Guardar/Actualizar la etiqueta', 'danger', true);
                 return;
             }
-            general.notify('<strong>Actualizado</strong><br />', 'Se actualizo la Dependencia', 'success', true);
+            general.notify('<strong> Éxito</strong><br />', 'Operación Realizada Con Éxito', 'success', true);
             iniUsuarios();
-        },
-        timeout: 40000,
-        data: datos,
-        type: "POST",
-        url: url
+        }        
     });
 }
 
 function tInfoUsuariolDAP(user) {
     var dialog = null;
-    //console.log(user);
     $.ajax({
         beforeSend: function () {
             dialog = bootbox.dialog({message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Cargando...</div>'});
@@ -302,8 +298,6 @@ function muestraInfoLdap(json) {
     bootbox.alert("<center><h3>INFORMACIÓN DE USUARIO</h3><br><br>" + myHtml + "</center>");
 }
 
-//botones laterales derecho funcionen
-console.log(screen.width);
 $(window).resize(function(){
     //iniUsuarios();
     actionFormatter();

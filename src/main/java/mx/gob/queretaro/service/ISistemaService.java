@@ -10,6 +10,8 @@ public interface ISistemaService {
 
 	List<Sistema> obtenerSistemas() throws InternalException;
 
+	List<Sistema> obtenerIdNombre() throws InternalException;
+
 	Sistema obtenerPorId(Short id) throws InternalException;
 
 	Sistema guardarSistema(SistemaRequest sistemaRequest) throws InternalException;

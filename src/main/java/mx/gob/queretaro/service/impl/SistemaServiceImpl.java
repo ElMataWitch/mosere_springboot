@@ -37,6 +37,16 @@ public class SistemaServiceImpl implements ISistemaService {
 	}
 
 	@Override
+	public List<Sistema> obtenerIdNombre() throws InternalException {
+		try {
+			return sistemaRepository.obtenerIdNombre();
+		} catch (Exception ex) {
+			log.error("Ocurrio un eror al obtener los sistemas", ex);
+			throw new InternalException("Ocurrio un eror al obtener los sistemas");
+		}
+	}
+
+	@Override
 	public Sistema obtenerPorId(Short id) throws InternalException {
 		if (null != id) {
 			try {
@@ -98,5 +108,7 @@ public class SistemaServiceImpl implements ISistemaService {
 			throw new InternalException("El nombre del Sistema y demas campos no debe ser nulos o vacios");
 		}
 	}
+
+
 
 }

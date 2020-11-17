@@ -10,6 +10,8 @@ public interface IEtiquetaService {
 
 	List<Etiqueta> obtenerEtiquetas() throws InternalException;
 
+	List<Etiqueta> obtenerEtiquetasIdSistema(Short idSistema) throws InternalException;
+
 	List<String> obtenerPosicionesEtiquetas() throws InternalException;
 
 	Etiqueta obtenerPorId(Short id) throws InternalException;
@@ -17,4 +19,6 @@ public interface IEtiquetaService {
 	Etiqueta guardarEtiqueta(EtiquetaRequest etiquetaRequest) throws InternalException;
 
 	Etiqueta actualizarEtiqueta(EtiquetaRequest etiquetaRequest) throws InternalException;
+
+	void eliminarEtiqueta(Short id) throws InternalException;
 }

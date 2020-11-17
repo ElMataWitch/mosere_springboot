@@ -23,7 +23,7 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter{
 		.antMatchers("/","/index*","*/css/**","/js/**","/img/**","/webjars/**").permitAll() //SIN AUTENTIFICACION
 		.antMatchers("/api/**").permitAll() //sin autentificacion
 		.antMatchers("/home*").hasAnyRole("ADMIN","USER") //CON AUTENTIFICACION
-		.antMatchers("/usuarios/**","/sistemas/**").hasAnyRole("ADMIN") //CON AUTENTIFICACION Y SOLO ROL ADMIN
+		.antMatchers("/usuarios/**","/sistemas/**","/leyendas/**","/dependencias/**").hasAnyRole("ADMIN") //CON AUTENTIFICACION Y SOLO ROL ADMIN
 		.and()
 		.formLogin() // Login
 		.loginProcessingUrl("/login") // j_security_check

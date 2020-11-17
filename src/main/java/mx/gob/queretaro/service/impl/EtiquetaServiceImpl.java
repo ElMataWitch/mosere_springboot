@@ -106,6 +106,44 @@ public class EtiquetaServiceImpl implements IEtiquetaService{
 		}
 	}
 
+	@Override
+	public List<Etiqueta> obtenerEtiquetasIdSistema(Short idSistema) throws InternalException {
+		if (null != idSistema) {
+			try {
+				Sistema sistema = new Sistema();
+				sistema.setIdSistema(idSistema);
+
+				return etiquetaRepository.obtenerPorIdSistema(sistema);
+			} catch (Exception ex) {
+				log.error(String.format("Ocurrio un error al obtener la etiqueta con el idSistema : %d", idSistema), ex);
+				throw new InternalException(String.format("Ocurrio un error al obtener la etiqueta con el id : %d", idSistema));
+			}
+		} else {
+			throw new InternalException("El id de la dependencia no debe ser nulo o vacio.");
+		}
+	}
+
+	@Override
+	public void eliminarEtiqueta(Short id) throws InternalException {
+		if(null != id ) {
+			try {
+				Etiqueta etiqueta = etiquetaRepository.findById(id).orElse(null);
+				if(null != etiqueta) {
+					etiquetaRepository.eliminarEtiqueta(id);
+				}else {
+					throw new InternalException("El id de la etiqueta no existe en base de datos");
+				}
+			} catch (InternalException ex) {
+				throw ex;
+			} catch (Exception ex) {
+				log.error(String.format("Ocurrio un error al borrar la etiqueta con el id : %d", id),ex);
+				throw new InternalException(String.format("Ocurrio un error al borrar la etiqueta con el id : %d", id));
+			}
+		}else {
+			throw new InternalException("La etiqueta no debe ser nulos o vacios");
+		}
+	}
+
 
 
 }

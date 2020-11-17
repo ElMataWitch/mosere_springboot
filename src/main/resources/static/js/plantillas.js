@@ -47,7 +47,7 @@ var plantillas = {
         this.btresguardo = $('#btresguardo');
    
 
-        this.cargaVariables();
+        //this.cargaVariables();
 
         plantillas.encabezado.summernote({
             disableDragAndDrop: true,
@@ -282,10 +282,6 @@ var plantillas = {
             }
 
 
-
-
-
-
         }).on('err.form.fv', function (e) {
             $('html, body').animate({scrollTop: 0}, 'slow');
             general.notify('<strong>Mensaje del Sistema</strong><br />', 'Los campos (*) obligatorios, son requeridos.', 'warning', true);
@@ -306,8 +302,8 @@ var plantillas = {
             if (plantillas.cmbSistema.val() !== seleccionado) {
                 plantillas.limpiaParametros();
                // plantillas.limpiaUsuario();
-                plantillas.obtieneEtiquetas();
-             
+                //plantillas.obtieneEtiquetas(); aca es donde comenzare tabla para usarla                
+                tInfoLeyendasTodos();
             }
 
         });
@@ -344,10 +340,10 @@ var plantillas = {
 
         });
 
-
-
-
+        
         plantillas.cargaSelect();
+
+        
 
 
         if (seleccionado !== null) {
@@ -417,13 +413,12 @@ var plantillas = {
     },
 
     cargaSelect: function () {
-
-
+        
         plantillas.cmbSistema.select2({
-            placeholder: 'Ingresa el sistema',
+            placeholder: 'Ingrese Sistema',
             language: {
                 errorLoading: function () {
-                    return "Ingrese un sistema correcto";
+                    return "Ingrese un sistema existente";
                 },
                 noResults: function () {
                     return "No hay resultado";
@@ -432,72 +427,30 @@ var plantillas = {
                     return "Buscando..";
                 },
                 inputTooShort: function () {
-                    return 'Ingresa 3 caracteres';
+                    return '...';
                 }
 
-            },
-            ajax: {
-                url: 'sListaSistemas',
-                type: 'GET',
-                contentType: 'application/json; charset=utf-8',
-                delay: 25,
-                data: function (params) {
-                    return {
-                        dato: params.term,
-                    };
-                },
-                processResults: function (data, params) {
-                    return {
-                        results: $.map(data.datos, function (item) {
-                            return {
-                                id: item.ID,
-                                text: item.NOMBRE
-                            };
-                        })
-                    };
-                },
-                cache: true
-
-            },
-            escapeMarkup: function (markup) {
-                return markup;
-            },
-            minimumInputLength: 3
+            }
         });
 
         plantillas.cmbDependencia.select2({
-            placeholder: 'Ingresa la dependencia',
-            language: 'es',
-            ajax: {
-                url: 'sGestorDependencias',
-                type: 'GET',
-                contentType: 'application/json; charset=utf-8',
-                delay: 25,
-                data: function (params) {
-                    return {
-                        dependencia: params.term,
-                    };
+            placeholder: 'Ingrese Dependencia',
+            language: {
+                errorLoading: function () {
+                    return "Ingrese un sistema existente";
                 },
-                processResults: function (data, params) {
-                    return {
-                        results: $.map(data.datos, function (item) {
-
-                            return {
-                                id: item.flexValue,
-                                text: item.description
-                            };
-                        })
-                    };
+                noResults: function () {
+                    return "No hay resultado";
                 },
-                cache: true
+                searching: function () {
+                    return "Buscando..";
+                },
+                inputTooShort: function () {
+                    return '...';
+                }
 
-            },
-            escapeMarkup: function (markup) {
-                return markup;
-            },
-            minimumInputLength: 3
-        });
-
+            }
+        });    
     },
 
     previsualizar: function () {
@@ -588,7 +541,7 @@ var plantillas = {
 
         $.ajax({
             type: 'GET',
-            url: 'sBuscaUsuarios?usuario=' + usuario,
+            url: '../api/ldapInfo/consultarUsuario/' + usuario,
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             responseType: 'json',
@@ -659,21 +612,8 @@ var plantillas = {
 
     },
 
-    resetForm: function () {
-        $('#encabezado').summernote('reset');
-        $('#leyenda').summernote('reset');
-        $('#cuerpo').summernote('reset');
-        $('#apertura').summernote('reset');
-        $('#mensaje').summernote('reset');
-        $("#sistema").select2("val", null);
-        $("#usuario").val("");
-        $("#dependencia").select2("val", null);
-        $("#nombre").val("");
-        $("#departamento").val("");
-        $("#correo").val("");
-
-
-        window.location.href = '/mosere/simulador.jsp';
+    resetForm: function () {        
+        window.location.href = '/mosere/simulador/listado';
 
     },
 
@@ -810,28 +750,31 @@ var plantillas = {
             idSistema: idSistema
         };
 
-
+        console.log(idSistema);
         $.ajax({
-            type: 'POST',
-            url: 'sResguardoPlantilla',
+            type: 'GET',
+            url: '../api/etiquetas/obtenerPorIdSistema/' + idSistema,
             data: datos,
             contentType: "application/x-www-form-urlencoded; charset=utf-8",
             dataType: 'json',
             responseType: 'json',
-
+            
             success: function (resultado) {
-
+                console.log("mostrando Info");   
+                console.log(resultado.datos[0]);         
+                console.log(resultado.datos[0].posicion);       
                 try {
                     if (resultado.datos) {
                         //  $('#sistema').append(new Option($.trim(resultado.sistema[0].nombre), $.trim(resultado.sistema[0].id)), true, true);
-                        if (bandera) {
+                        /*if (bandera) {
                             var newOption = new Option($.trim(resultado.sistema[0].nombre), $.trim(resultado.sistema[0].id), true, true);
                             $('#sistema').append(newOption).trigger('change');
 
-                        }
-                        console.log(resultado.correo);
-                        $('#leyenda').summernote('code', resultado.leyenda);
-
+                        }*/
+                        if(resultado.datos[0].posicion = "leyenda"){
+                            $('#leyenda').summernote('code', resultado.datos[0].leyenda);
+                        }                
+                                                
                         $('#cuerpo').summernote('code', resultado.cuerpo);
 
                         $('#apertura').summernote('code', resultado.apertura);
@@ -875,12 +818,10 @@ var plantillas = {
     },
 
     cargaVariables: function () {
-
-
         $.ajax({
-            type: 'POST',
+            type: 'GET',
             data: 'redo',
-            url: 'sVariables',
+            url: '../api/variables/obtenerVariables',
             contentType: "application/x-www-form-urlencoded; charset=utf-8",
             dataType: 'json',
             responseType: 'json',

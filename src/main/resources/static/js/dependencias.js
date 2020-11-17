@@ -17,13 +17,14 @@ function botones() {
         $("#id").val("0");
         $("#dFormulario").show("slow");
         $("#descripcion").focus();
-        $("#fDependencias").attr("action",'/mosere/dependencias/guardar');
+        $("#fDependencias").attr("action",'/mosere/api/dependencias/guardar');        
+        $("#fDependencias").attr("method",'POST');
     });
 
     $("#bCancel").click(function () {
         $("#dFormulario").hide("slow");
     });
-    /*
+    
     $('#fDependencias').formValidation({
         excluded: [':disabled', ':hidden'],
         live: 'enabled',
@@ -35,7 +36,8 @@ function botones() {
                 // You can get the form instance
                 var $form = $(e.target);
                 // and the FormValidation instance
-                var fv = $form.data('formValidation');                
+                var fv = $form.data('formValidation');      
+                jajaxPost($(this));          
             }).on('err.form.fv', function (e) {
         e.preventDefault();
         general.notify('<strong>Alerta</strong><br />', 'Existe uno o mas campos con informacion incorrecta, favor de verificarlo', 'warning', true);
@@ -47,7 +49,7 @@ function botones() {
     $('#tListaDependencia').on('search.bs.table', function (e) {
         iniDependencia();
     });
-    */
+    
 }
 
 function tInfoDependenciasTodos() {
@@ -121,7 +123,9 @@ function llenaTablaDependencias(jdatos) {
         folio = folio.substring(6);
         llenaCamposEditar(folio);
         $("#dFormulario").show("slow");
-        $("#fDependencias").attr("action",'/mosere/dependencias/actualizar');
+        $("#fDependencias").attr("action",'/mosere/api/dependencias/actualizar');        
+        $("#fDependencias").attr("method",'PUT');
+        $("#descripcion").focus();
     });
 }
 
@@ -156,22 +160,25 @@ function llenaCamposEditar(id) {
 }
 
 function jajaxPost(forma) {
-    var url = $(forma).attr('action');  //la url del action del formulario
-    var datos = $(forma).serialize(); // los datos del formulario
-    var dialog = null;
+    var url = $(forma).attr('action');
+    var method = $(forma).attr('method');
+    var parameters = {
+        "id" : $("#id").val(),
+        "descripcion" : $("#descripcion").val(),
+        "estatus" : $("#estatus").val(),
+        "usuarioCaptura" : $("#usuarioCaptura").val(),
+        "fechaCaptura" : $("#fechaCaptura").val(),
+        "usuarioEditor" : $("#usuarioEditor").val(),
+        "fechaEdicion" : $("#fechaEdicion").val()
+    }
+    //console.log(parameters);
     $.ajax({
-        beforeSend: function () {
-            dialog = bootbox.dialog({message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Cargando...</div>'});
-        },
-        cache: false,
-        complete: function () {
-            dialog.modal('hide');
-        },
-        // Definir codificación para el envío de datos
-        contentType: "application/x-www-form-urlencoded; charset=utf-8",
-        // Indicar que esperamos un código JSON como respuesta
+        timeout: 40000,
+        type: method,
+        url: url,
+        contentType: "application/json; charset=utf-8",
         dataType: "json",
-        // Manejador de errores cuando ocurra uno al hacer la petición
+        data: JSON.stringify(parameters),
         error: function ajaxError(peticion, tipoError, excepcion) {
             $("#divImgCargando").hide();
             if (tipoError == "timeout") {
@@ -189,16 +196,12 @@ function jajaxPost(forma) {
         scriptCharset: "utf-8",
         success: function (json) {
             if (json == "0") {
-                general.notify('<strong>Alerta</strong><br />', 'No se pudo actualizar la Dependencia', 'danger', true);
+                general.notify('<strong> Error!!</strong><br />', 'Ah ocurrido Un Error al Guardar/Actualizar la etiqueta', 'danger', true);
                 return;
             }
-            general.notify('<strong>Actualizado</strong><br />', 'Se actualizo la Dependencia', 'success', true);
+            general.notify('<strong> Éxito</strong><br />', 'Operación Realizada Con Éxito', 'success', true);
             iniDependencia();
-        },
-        timeout: 40000,
-        data: datos,
-        type: "POST",
-        url: url
+        }        
     });
 }
 //

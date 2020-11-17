@@ -4,11 +4,11 @@
 	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
-<title>Dependencias</title>
+<title>Leyendas Resguardo</title>
 </head>
 <body>
 	<div layout:fragment="body">
-		<div class="box">
+				<div class="box">
 		    <div class="box-header with-border">
 		        <h3 class="box-title">Listado</h3>
 		    </div>
@@ -17,38 +17,47 @@
 		            <div class="row">
 		                <div class="col-lg-12">
 		                    <div id="dFormulario" class="box-header with-border ocultar" style="display: none;">
-		                        <form role="form" id="fDependencias" th:action="@{../api/dependencias/guardar}" method="POST" data-fv-framework="bootstrap" 
+		                        <form role="form" id="fLeyendas" th:action="@{../api/etiquetas/guardar}" method="POST" data-fv-framework="bootstrap" 
 		                              data-fv-icon-valid="glyphicon glyphicon-ok" data-fv-icon-invalid="glyphicon glyphicon-remove" 
 		                              data-fv-icon-validating="glyphicon glyphicon-refresh">
 		                            <div class="row"> 
 		                                <div class="col-sm-1 ocultar" id="dId">
 		                                    <h6>Id</h6><input id="id" name="id" type="text" size="4" maxlength="4" class="form-control" data-fv-notempty="true">
 		                                </div>
+		                                <div id="dSistema" class="col-sm-6">
+		                                    <h6>Sistema*</h6>
+		                                    <select id="idSistema" name="idSistema" class="form-control">
+		                                        <!--DATOS AL VUELO-->
+		                                    </select>
+		                                </div>
+		                                <div id="dPosicion" class="col-sm-6">
+		                                    <h6>Posicion*</h6>
+		                                    <select id="posicion" name="posicion" class="form-control">
+		                                        <!--DATOS AL VUELO-->
+		                                    </select>
+		                                </div>
 		                                <div class="col-sm-6">
 		                                    <h6>Descripción*</h6>
 		                                    <textarea rows="5" id="descripcion" name="descripcion" class="form-control" data-fv-notempty="true">
 		
 		                                    </textarea>
-		                                    <p>&nbsp;</p>                                            
-		                                    <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
 		                                </div>
-		                                <div id="dEstatus" class="col-sm-4">
+		                                <div id="dEstatus" class="col-sm-6">
 		                                    <h6>Estatus*</h6>
 		                                    <select id="estatus" name="estatus" class="form-control">
 		                                        <option value="AC">Activo</option>
 		                                        <option value="IN">Inactivo</option>
 		                                    </select>
 		                                </div>
-		                                <div id="dBotonesForm" class="col-sm-4">
+		                                <div id="dBotonesForm" class="col-sm-6">
 		                                    <h6>&nbsp;</h6>
 		                                    <button type="button" class="btn btn-success" id="bSalvaIfo"><i class="fa fa-floppy-o"> Salvar</i></button>
 		                                    <button type="button" class="btn btn-danger" id="bCancel"><i class="fa fa-ban"> Cancelar</i></button>
 		                                    
 		                                    <!-- solo para probar -->
 		                                    <p>&nbsp;</p>
-		                                    <input id="usuarioCaptura" name="usuarioCaptura" class="form-control" type="hidden" placeholder="Usuario" value="LCRUZL"/>
-		                                    <input id="usuarioEditor" name="usuarioEditor" class="form-control" type="hidden" placeholder="Usuario" value="LCRUZL"/>
-		                                    
+		                                    <input id="usuarioCaptura" name="usuarioCaptura" class="form-control" type="hidden" placeholder="Usuario" value="EHERMOSILLO"/>
+		                                    <input id="usuarioEditor" name="usuarioEditor" class="form-control" type="hidden" placeholder="Usuario" value="EHERMOSILLO"/>
 		                                </div>
 		
 		                            </div>
@@ -59,7 +68,7 @@
 		            <div class="row">
 		                <div class="col-lg-12">
 		                    <div id="dContenido">
-		                        <table id="tListaDependencia" 
+		                        <table id="tListaLeyendas" 
 		                               data-mobile-responsive="true"
 		                               data-locale="es-MX"
 		                               data-height="450"
@@ -78,6 +87,9 @@
 		                               class="table table-bordered table-hover table-condensed">
 		                            <thead>
 		                                <tr>
+		                                	<th data-field="idEtiqueta" data-sortable="true">ID</th>
+		                                    <th data-field="sistema.nombre" data-sortable="true">SISTEMA</th>
+		                                    <th data-field="posicion" data-sortable="true">POSICION</th>
 		                                    <th data-field="descripcion" data-sortable="true">DESCRIPCIÓN</th>
 		                                    <th data-field="estatus" data-sortable="true">ESTATUS</th>
 		                                    <th data-field="usuarioCaptura" data-sortable="true">USUARIO CAPTURO</th>
@@ -88,9 +100,10 @@
 		                                </tr>
 		                            </thead>
 		                        </table>
-		                        <p>&nbsp;</p> 
+		                        <p>&nbsp;</p>
 		                        <div id="dBotones">
-		                            <button type="button" class="btn btn-primary" id="bNuevo"><i class="fa fa-plus-square-o"> Nueva Dependencia</i></button>
+		                            <button type="button" class="btn btn-primary" id="bNuevo"><i class="fa fa-plus-square-o"> Nueva Leyenda</i></button>
+		                            <button type="button" class="btn btn-primary" id="bComando"><i class="fa fa-quora"> Comandos</i></button>
 		                        </div>
 		                    </div>
 		                </div>
@@ -107,7 +120,7 @@
 	<script th:src="@{/js/bootstrap/bootstrap-table/extensions/fixed/bootstrap-table-fixed-columns.js}" type="text/javascript"></script>	
 	<script th:src="@{/js/bootstrap/bootstrap-table/extensions/export/bootstrap-table-export.min.js}" type="text/javascript"></script>	
 	<script th:src="@{/js/bootstrap/bootstrap-table/extensions/export/tableExport.js}" type="text/javascript"></script>	
-	<script th:src="@{/js/dependencias.js}" type="text/javascript"></script>
+	<script th:src="@{/js/leyendas.js}" type="text/javascript"></script>
 		
 	</th:block>
 </body>

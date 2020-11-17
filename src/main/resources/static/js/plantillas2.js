@@ -1,61 +1,16 @@
 var jdatos2 = null;
 
-function iniLeyenda() {
+function iniEtiqueta() {
     $(".ocultar").hide();
     actualiza();
     $("#tListaLeyendas").bootstrapTable({});
-    tInfoLeyendasTodos();
-    
+    //tInfoLeyendasTodos();
     actualiza();
 }
 
 function botones() {
-    iniLeyenda();
-    
-    $("#bSalvaIfo").click(function () {
-        $('#fLeyendas').submit();
-    });
+    iniEtiqueta();
 
-    $("#bNuevo").click(function () {
-        $("#descripcion").val("");
-        $("#id").val("0");
-        $("#dFormulario").show("slow");
-        $("#idSistema").focus();
-        $("#fLeyendas").attr("action",'/mosere/api/etiquetas/guardar');
-        $("#fLeyendas").attr("method",'POST');
-        
-    });
-
-    $("#bCancel").click(function () {
-        $("#dFormulario").hide("slow");
-    });
-
-    $('#fLeyendas').formValidation({
-        excluded: [':disabled', ':hidden'],
-        live: 'enabled',
-        locale: 'es_ES'
-    })
-            .on('success.form.fv', function (e) {
-                // Prevent form submission
-                e.preventDefault();
-                // You can get the form instance
-                var $form = $(e.target);
-                // and the FormValidation instance
-                var fv = $form.data('formValidation');
-                jajaxPost($(this));
-            }).on('err.form.fv', function (e) {
-        e.preventDefault();
-        general.notify('<strong>Alerta</strong><br />', 'Existe uno o mas campos con informacion incorrecta, favor de verificarlo', 'warning', true);
-        $("#DESCIPCION").focus();
-    });
-    $("#bComando").click(function () {
-        if (myHtml == "") {
-            tInfoListaComandos();
-        }
-        else {
-            bootbox.alert("<center><h1>LISTA DE COMANDOS</h1><br><br><h2>" + myHtml + "</h2></center>");
-        }
-    });
     $('#tListaLeyendas').on('sort.bs.table', function (e) {
         iniLeyenda();
     });
@@ -65,6 +20,7 @@ function botones() {
 }
 
 function tInfoLeyendasTodos() {
+    var idSistema = $("#sistema").val();    
     var dialog = null;
     $.ajax({
         beforeSend: function () {
@@ -99,14 +55,14 @@ function tInfoLeyendasTodos() {
             }
             if (!json.datos || !json.datos.length || (!json.datos.length < 0)) {
                 $("#divImgCargando").hide();
-                general.notify('<strong>Alerta</strong><br />', 'No hay Informacion con esa seleccion.', 'warning', true);
-                return;
+                general.notify('<strong>Alerta</strong><br />', 'No hay Informacion con esa seleccion.', 'warning', true);                
+                
             }            
             llenaTablaLeyendas(json);            
         },        
         timeout: 30000,
         type: "GET",
-        url: "../api/etiquetas/obtenerEtiquetas"
+        url: "../api/etiquetas/obtenerPorIdSistema/" + idSistema
     });
 }
 
@@ -127,23 +83,33 @@ function llenaTablaLeyendas(jdatos) {
         return folio;
     }
     $(".bEdita").click(function () {        
-        llenaCamposEditar(dameFolio($(this).attr("id")));
-        $("#dFormulario").show("slow");
-        $("#idSistema").focus();
-        $("#fLeyendas").attr("action",'/mosere/api/etiquetas/actualizar');
-        $("#fLeyendas").attr("method",'PUT');
+        llenaCamposEditar(dameFolio($(this).attr("id")));        
     });
 }
 function llenaCamposEditar(id) {
     var reg = null;
     for (var i = 0; i < jdatos2.datos.length; i++) {
-        reg = jdatos2.datos[i];
-        if (reg.idEtiqueta == id) {
-            $("#id").val(reg.idEtiqueta);
-            $("#idSistema").val(reg.sistema.idSistema);
-            $("#descripcion").val(reg.descripcion);
-            $("#estatus").val(reg.estatus);
-            $("#posicion").val(reg.posicion);
+        reg = jdatos2.datos[i];        
+        if (reg.idEtiqueta == id) { 
+            if(reg.posicion == "cabezal1"){                                
+                $('#encabezado').summernote('code', reg.descripcion);
+            }
+            if(reg.posicion == "leyenda"){                
+                $('#leyenda').summernote('code', reg.descripcion);
+            }
+            if(reg.posicion == "apertura"){                                
+                $('#apertura').summernote('code', reg.descripcion);
+            }
+            if(reg.posicion == "cuerpo"){                
+                $('#cuerpo').summernote('code', reg.descripcion);
+            } 
+            if(reg.posicion == "mensaje"){                                
+                $('#mensaje').summernote('code', reg.descripcion);
+            }                    
+                        
+            $("#apertura").val(reg.descripcion);  
+            $("#cuerpo").val(reg.descripcion);              
+            $("#mensaje").val(reg.descripcion);
             return;
         }
     }
@@ -152,7 +118,7 @@ function llenaCamposEditar(id) {
 function actionFormatter(value, row, index) {
     return [
     	'<div class="form-inline">'+
-        '<button type="button" class="btn btn-success bEdita" id="aEdita' + row.idEtiqueta + '"><i class="fa fa-pencil"> Editar</i></button>'+
+        '<button type="button" class="btn btn-success bEdita" id="aEdita' + row.idEtiqueta + '"><i class="fa fa-pencil"> Usar</i></button>'+
         '</div>'
     ];
 }
@@ -170,56 +136,7 @@ function actualiza() {
     });
 
 }
-//insertPorJson
-function jajaxPost(forma) {
-    var url = $(forma).attr('action');
-    var method = $(forma).attr('method');
-    var parameters = {
-        "id" : $("#id").val(),
-        "idSistema" : $("#idSistema").val(),
-        "posicion" : $("#posicion").val(),
-        "descripcion" : $("#descripcion").val(),
-        "estatus" : $("#estatus").val(),
-        "usuarioCaptura" : $("#usuarioCaptura").val(),
-        "fechaCaptura" : $("#fechaCaptura").val(),
-        "usuarioEditor" : $("#usuarioEditor").val(),
-        "fechaEdicion" : $("#fechaEdicion").val()
-    }
-    //console.log(parameters);
-    $.ajax({
-        timeout: 40000,
-        type: method,
-        url: url,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(parameters),
-        error: function ajaxError(peticion, tipoError, excepcion) {
-            $("#divImgCargando").hide();
-            if (tipoError == "timeout") {
-                general.notify('<strong>Alerta</strong><br />', 'No se tiene respuesta con el servidor.\nFavor de intentarlo más tarde ', 'warning', true);
-            } else if (peticion.status == 500) {
-                general.notify('<strong>Alerta</strong><br />', 'Error en el servidor al ejecutar el servicio..\nFavor de intentarlo más tarde ', 'warning', true);
-            } else if (peticion.status == 404) {
-                general.notify('<strong>Alerta</strong><br />', 'No se encontro el servicio solictado.\nFavor de verificar.', 'warning', true);
-            } else if (tipoError == "parsererror") {
-                general.notify('<strong>Alerta</strong><br />', 'Error en la respuesta enviada del servidor.\nFavor de intentarlo más tarde ', 'warning', true);
-            } else {
-                general.notify('<strong>Alerta</strong><br />', 'Ocurrio un error al ejecutar el servicio.\nFavor de intentarlo más tarde ', 'warning', true);
-            }
-        },
-        scriptCharset: "utf-8",
-        success: function (json) {
-            if (json == "0") {
-                general.notify('<strong> Error!!</strong><br />', 'Ah ocurrido Un Error al Guardar/Actualizar la etiqueta', 'danger', true);
-                return;
-            }
-            general.notify('<strong> Éxito</strong><br />', 'Operación Realizada Con Éxito', 'success', true);
-            iniLeyenda();
-        }        
-    });
-}
-
-function tInfoListaSistemas() {//recibe el listado de sistemas
+function tInfoListaSistemas() {
     var dialog = null;
     $.ajax({
         beforeSend: function () {
@@ -228,15 +145,11 @@ function tInfoListaSistemas() {//recibe el listado de sistemas
         cache: false,
         complete: function () {
             dialog.modal('hide');
-        },
-        // Definir codificación para el envío de datos
-        contentType: "application/x-www-form-urlencoded; charset=utf-8",
-        // Indicar que esperamos un código JSON como respuesta
+        },        
+        contentType: "application/x-www-form-urlencoded; charset=utf-8",        
         dataType: "json",
         scriptCharset: "utf-8",
-        success: function (json) {
-
-            // Validar que es un objeto
+        success: function (json) {            
             if (!json) {
                 $("#divImgCargando").hide();
                 general.notify('<strong>Alerta</strong><br />', 'No hay registros de sistemas!! ', 'warning', true);
@@ -248,26 +161,24 @@ function tInfoListaSistemas() {//recibe el listado de sistemas
                 return;
             }
             llenacCbSistema(json);
-        },
-        // Le damos 30 segundos a la petición para recibir una respuesta
+        },        
         timeout: 30000,
-        // Hacemos una petición de tipo "GET"
-        type: "GET",
-        // La URL que vamos a consultar
+        type: "GET",        
         url: "../api/sistemas/obtenerIdNombre"
     });
-}//fin tInformacion
+}
 
 function llenacCbSistema(json) {
     var reg = null;
     var myHtml = "";
+    myHtml += "<option value=''>Seleccione un Sistema</option>";
     for (var i = 0; i < json.datos.length; i++) {
         reg = json.datos[i];
         myHtml += "<option value=" + reg.idSistema + ">" + reg.nombre + "</option>";
     }
-    $("#idSistema").html(myHtml);
+    $("#sistema").html(myHtml);
 }
-function tInfoListaPosiciones() {//recibe el listado de sistemas
+function tInfoListaDependencias() {//recibe el listado de sistemas
     var dialog = null;
     $.ajax({
         beforeSend: function () {
@@ -295,26 +206,27 @@ function tInfoListaPosiciones() {//recibe el listado de sistemas
                 general.notify('<strong>Alerta</strong><br />', 'No hay registros de sistemas.', 'warning', true);
                 return;
             }
-            llenacCbPosicion(json);
+            llenacCbDependencias(json);
         },
         // Le damos 30 segundos a la petición para recibir una respuesta
         timeout: 30000,
         // Hacemos una petición de tipo "GET"
         type: "GET",
         // La URL que vamos a consultar
-        url: "../api/etiquetas/obtenerPosicionEtiquetas"
+        url: "../api/ldapInfo/consultarDependencia/s"
     });
 }//fin tInformacion
 
-function llenacCbPosicion(json) {
+function llenacCbDependencias(json) {
     var reg = null;
     var myHtml = "";
+    myHtml += "<option value=''>Seleccione una Dependencia</option>";
     for (var i = 0; i < json.datos.length; i++) {
         reg = json.datos[i];
         //console.log(reg);
-        myHtml += "<option value='" + reg + "'>" + reg + "</option>";
+        myHtml += "<option value='" + reg.description + "'>" + reg.description + "</option>";
     }
-    $("#posicion").html(myHtml);
+    $("#dependencia").html(myHtml);
 }
 
 
@@ -369,10 +281,12 @@ function tInfoListaComandos() {//recibe el listado de los comandos
         url: "../api/variables/obtenerVariables"
     });
 }//fin tInformacion
+
 $(window).resize(function(){
-    //iniUsuarios();
+    //funcSistemas();
     actionFormatter();
 });
+
 tInfoListaSistemas();
-tInfoListaPosiciones();
+tInfoListaDependencias();
 botones();

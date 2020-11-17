@@ -18,7 +18,8 @@ function botones() {
         $("#id").val("0");
         $("#dFormulario").show("slow");
         $("#nombre").focus();
-        $("#fSistema").attr("action",'/mosere/sistemas/guardar');
+        $("#fSistema").attr("action",'/mosere/api/sistemas/guardar');
+        $("#fSistema").attr("method",'POST');
         
     });
         
@@ -26,7 +27,28 @@ function botones() {
         $("#dFormulario").hide("slow");
     });
         
-    
+    $('#fSistema').formValidation({
+        excluded: [':disabled', ':hidden'],
+        live: 'enabled',
+        locale: 'es_ES'
+    })
+            .on('success.form.fv', function (e) {
+                e.preventDefault();
+                var $form = $(e.target);
+                var fv = $form.data('formValidation');;
+                jajaxPost($(this));
+            }).on('err.form.fv', function (e) {
+        e.preventDefault();
+        general.notify('<strong>Alerta</strong><br />', 'Existe uno o mas campos con informacion incorrecta, favor de verificarlo', 'warning', true);
+        $("#nombre").focus();
+    });
+        
+    $('#tListaSistemas').on('sort.bs.table', function (e) {
+        funcSistemas();
+    });
+    $('#tListaSistemas').on('search.bs.table', function (e) {
+        funcSistemas();
+    });
 }
 function actualiza() {
     $("#tListaSistemas").bootstrapTable({
@@ -135,20 +157,65 @@ function llenaTablaSistemas(jdatos) {
         llenaCamposEditar(folio);
         console.log("entra");
         $("#dFormulario").show("slow");      
-        $("#fSistema").attr("action",'/mosere/sistemas/actualizar');
-		$("#nombre").focus();  
-	
+        $("#nombre").focus();
+        $("#fSistema").attr("action",'/mosere/api/sistemas/actualizar');
+        $("#fSistema").attr("method",'PUT');	
     }); 	 
 }
 
+function jajaxPost(forma) {
+    var url = $(forma).attr('action');
+    var method = $(forma).attr('method');
+    var parameters = {
+        "id" : $("#id").val(),
+        "nombre" : $("#nombre").val(),
+        "enviaCorreo" : $("#enviaCorreo").val(),
+        "estatus" : $("#estatus").val(),
+        "usuarioCaptura" : $("#usuarioCaptura").val(),
+        "fechaCaptura" : $("#fechaCaptura").val(),
+        "usuarioEditor" : $("#usuarioEditor").val(),
+        "fechaEdicion" : $("#fechaEdicion").val(),
+        "descripcion" : $("#descripcion").val()
+    }
+    //console.log(parameters);
+    $.ajax({
+        timeout: 40000,
+        type: method,
+        url: url,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(parameters),
+        error: function ajaxError(peticion, tipoError, excepcion) {
+            $("#divImgCargando").hide();
+            if (tipoError == "timeout") {
+                general.notify('<strong>Alerta</strong><br />', 'No se tiene respuesta con el servidor.\nFavor de intentarlo más tarde ', 'warning', true);
+            } else if (peticion.status == 500) {
+                general.notify('<strong>Alerta</strong><br />', 'Error en el servidor al ejecutar el servicio..\nFavor de intentarlo más tarde ', 'warning', true);
+            } else if (peticion.status == 404) {
+                general.notify('<strong>Alerta</strong><br />', 'No se encontro el servicio solictado.\nFavor de verificar.', 'warning', true);
+            } else if (tipoError == "parsererror") {
+                general.notify('<strong>Alerta</strong><br />', 'Error en la respuesta enviada del servidor.\nFavor de intentarlo más tarde ', 'warning', true);
+            } else {
+                general.notify('<strong>Alerta</strong><br />', 'Ocurrio un error al ejecutar el servicio.\nFavor de intentarlo más tarde ', 'warning', true);
+            }
+        },
+        scriptCharset: "utf-8",
+        success: function (json) {
+            if (json == "0") {
+                general.notify('<strong> Error!!</strong><br />', 'Ah ocurrido Un Error al Guardar/Actualizar la etiqueta', 'danger', true);
+                return;
+            }
+            general.notify('<strong> Éxito</strong><br />', 'Operación Realizada Con Éxito', 'success', true);
+            funcSistemas();
+        }        
+    });
+}
+
 //botones laterales derecho funcionen
-console.log(screen.width);
 $(window).resize(function(){
     //funcSistemas();
     actionFormatter();
 });
-
-
 
 funcSistemas();
 botones();

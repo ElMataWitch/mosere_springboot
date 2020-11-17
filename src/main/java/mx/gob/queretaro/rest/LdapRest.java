@@ -35,4 +35,26 @@ public class LdapRest {
 		return resultado;
 	}
 
+	@GetMapping(path = "consultarUsuario/{user}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public String consultarUsuario(@PathVariable("user") String user){
+		String resultado = "";
+		try {
+			resultado = lapILdapService.consultaUsuario(user);
+		} catch (InternalException ex) {
+			resultado = "{\"mensaje\" : \"Hubo un problema al obtener los datos\", \"estatus\" : \"danger\", \"datos\" : null}";
+		}
+		return resultado;
+	}
+
+	@GetMapping(path = "consultarDependencia/{dependencia}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public String consultarDependencia(@PathVariable("dependencia") String dependencia){
+		String resultado = "";
+		try {
+			resultado = lapILdapService.consultaDependencia(dependencia);
+		} catch (InternalException ex) {
+			resultado = "{\"mensaje\" : \"Hubo un problema al obtener los datos\", \"estatus\" : \"danger\", \"datos\" : null}";
+		}
+		return resultado;
+	}
+
 }

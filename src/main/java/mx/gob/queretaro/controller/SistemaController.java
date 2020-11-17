@@ -29,7 +29,7 @@ public class SistemaController {
 	}
 
 	@GetMapping("listado")
-	public String usuarios(ModelMap model) {
+	public String listado(ModelMap model) {
 		model.addAttribute("page", "sistemas");
 		return "sistemas/listado";
 	}

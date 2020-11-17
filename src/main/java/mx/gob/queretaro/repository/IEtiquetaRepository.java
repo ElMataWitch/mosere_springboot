@@ -23,6 +23,12 @@ public interface IEtiquetaRepository extends JpaRepository<Etiqueta,Short>{
 	Etiqueta obtenerPorId(@Param("id") Short id);
 
 	@Query("SELECT NEW Etiqueta(e.idEtiqueta, e.sistema, "
+			+ "e.posicion, e.descripcion) "
+			+ "FROM Etiqueta e "
+			+ "WHERE e.sistema = :sistema")
+	List<Etiqueta> obtenerPorIdSistema(@Param("sistema") Sistema sistema);
+
+	@Query("SELECT NEW Etiqueta(e.idEtiqueta, e.sistema, "
 			+ "e.posicion, e.descripcion, "
 			+ "e.estatus, e.usuarioCaptura, "
 			+ "e.fechaCaptura, e.usuarioEditor, "
@@ -54,4 +60,8 @@ public interface IEtiquetaRepository extends JpaRepository<Etiqueta,Short>{
 			@Param("fechaEdicion") Date fechaEdicion,
 			@Param("id") Short id
 			);
+
+	@Modifying
+	@Query("Delete FROM Etiqueta e WHERE e.idEtiqueta = :id")
+	Integer eliminarEtiqueta(@Param("id") Short id);
 }

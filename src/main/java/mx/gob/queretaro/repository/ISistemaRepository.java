@@ -1,6 +1,7 @@
 package mx.gob.queretaro.repository;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,6 +15,11 @@ public interface ISistemaRepository extends JpaRepository<Sistema, Short> {
 			+ "FROM Sistema s "
 			+ "WHERE s.idSistema = :id")
 	Sistema obtenerPorId(@Param("id") Short id);
+
+	@Query("SELECT NEW Sistema(s.idSistema, s.nombre) "
+			+ "FROM Sistema s "
+			+ "ORDER BY s.idSistema ASC")
+	List<Sistema> obtenerIdNombre();
 
 	@Modifying
 	@Query("UPDATE Sistema s SET "

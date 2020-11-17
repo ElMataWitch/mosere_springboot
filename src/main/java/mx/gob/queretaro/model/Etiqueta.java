@@ -34,13 +34,14 @@ public class Etiqueta implements Serializable {
 	private Short idEtiqueta;
 
 	// Enlace FK Variable
-	//@JsonIgnoreProperties(value = {"variables", "hibernateLazyInitializer", "handler"}, allowSetters = true)
+	// @JsonIgnoreProperties(value = {"variables", "hibernateLazyInitializer",
+	// "handler"}, allowSetters = true)
 	@OneToMany(mappedBy = "etiqueta")
 	private List<Variable> variables;
 
 	// FK
-	//@JsonIgnore
-	@JsonIgnoreProperties(value = {"variables", "hibernateLazyInitializer", "handler"}, allowSetters = true)
+	// @JsonIgnore
+	@JsonIgnoreProperties(value = { "variables", "hibernateLazyInitializer", "handler" }, allowSetters = true)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idSistema", nullable = false)
 	private Sistema sistema;
@@ -65,11 +66,29 @@ public class Etiqueta implements Serializable {
 	public Etiqueta() {
 	}
 
+	public Etiqueta(Sistema sistema, String posicion, String descripcion) {
+		this.sistema = sistema;
+		this.posicion = posicion;
+		this.descripcion = descripcion;
+	}
+
+	public Etiqueta(Short idEtiqueta, Sistema sistema, String posicion, String descripcion) {
+		super();
+		this.idEtiqueta = idEtiqueta;
+		this.sistema = sistema;
+		this.posicion = posicion;
+		this.descripcion = descripcion;
+	}
+
 	public Etiqueta(Short idEtiqueta, String descripcion) {
 		this.idEtiqueta = idEtiqueta;
 		this.descripcion = descripcion;
 	}
 
+	public Etiqueta(String posicion) {
+		super();
+		this.posicion = posicion;
+	}
 
 	public Etiqueta(Short idEtiqueta, Sistema sistema, String posicion, String descripcion, String estatus,
 			String usuarioCaptura, Date fechaCaptura, String usuarioEditor, Date fechaEdicion) {
@@ -84,18 +103,18 @@ public class Etiqueta implements Serializable {
 		this.fechaEdicion = fechaEdicion;
 	}
 
-	//insert
-	public Etiqueta(String posicion, String descripcion, String estatus, String usuarioCaptura,
-			Date fechaCaptura) {
+	// insert
+	public Etiqueta(String posicion, String descripcion, String estatus, String usuarioCaptura, Date fechaCaptura) {
 		this.posicion = posicion;
 		this.descripcion = descripcion;
 		this.estatus = estatus;
 		this.usuarioCaptura = usuarioCaptura;
 		this.fechaCaptura = fechaCaptura;
 	}
+
 	// update
-	public Etiqueta(Short idEtiqueta, String posicion, String descripcion, String estatus,
-			String usuarioEditor, Date fechaEdicion) {
+	public Etiqueta(Short idEtiqueta, String posicion, String descripcion, String estatus, String usuarioEditor,
+			Date fechaEdicion) {
 		this.idEtiqueta = idEtiqueta;
 		this.posicion = posicion;
 		this.descripcion = descripcion;
@@ -105,8 +124,8 @@ public class Etiqueta implements Serializable {
 	}
 
 	// select
-	public Etiqueta(Short idEtiqueta, String posicion, String descripcion,
-			String estatus, String usuarioCaptura, Date fechaCaptura, String usuarioEditor, Date fechaEdicion) {
+	public Etiqueta(Short idEtiqueta, String posicion, String descripcion, String estatus, String usuarioCaptura,
+			Date fechaCaptura, String usuarioEditor, Date fechaEdicion) {
 		this.idEtiqueta = idEtiqueta;
 		this.posicion = posicion;
 		this.descripcion = descripcion;

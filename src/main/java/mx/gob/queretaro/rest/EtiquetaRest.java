@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -71,6 +72,19 @@ public class EtiquetaRest {
 		return resultado;
 	}
 
+	@GetMapping(path = "obtenerPorIdSistema/{idSistema}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Object> obtenerPorIdSistema(@PathVariable("idSistema") Short idSistema){
+		Map<String, Object> resultado = new HashMap<>();
+		try {
+			resultado.put("estado", "exito");
+			resultado.put("datos", etiquetaService.obtenerEtiquetasIdSistema(idSistema));
+		} catch (InternalException ex) {
+			resultado.put("estado", "error");
+			resultado.put("datos", ex.getMessage());
+		}
+		return resultado;
+	}
+
 	@PostMapping(path = "guardar", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> guardar(@Valid @RequestBody EtiquetaRequest etiquetaRequest, BindingResult errores){
 		Map<String, Object> resultado = new HashMap<>();
@@ -116,6 +130,20 @@ public class EtiquetaRest {
 				resultado.put("estado", "exito");
 				resultado.put("datos", mensaje);
 			}
+		} catch (InternalException ex) {
+			resultado.put("estado", "error");
+			resultado.put("datos", ex.getMessage());
+		}
+		return resultado;
+	}
+
+	@DeleteMapping(path = "eliminarEtiqueta/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Object> eliminarEtiqueta(@PathVariable("id") Short id){
+		Map<String, Object> resultado = new HashMap<>();
+		try {
+			etiquetaService.eliminarEtiqueta(id);
+			resultado.put("estado", "exito");
+			resultado.put("datos", "Se borro con éxito");
 		} catch (InternalException ex) {
 			resultado.put("estado", "error");
 			resultado.put("datos", ex.getMessage());

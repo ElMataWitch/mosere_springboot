@@ -13,7 +13,7 @@
                 ><a th:href="@{/sistemas/listado}"><i class="fa fa-cog" aria-hidden="true"></i> <span>Sistemas</span></a></li>
                 <li
                 	th:classappend="${#strings.equals(page,'leyendas')} ? active : ''" sec:authorize="hasAnyRole('ADMIN', 'USER')"
-                ><a href="/mosere/leyendas.jsp"><i class="fa fa-file-text-o" aria-hidden="true"></i> <span>Leyendas Resguardo</span></a></li>
+                ><a th:href="@{/leyendas/listado}"><i class="fa fa-file-text-o" aria-hidden="true"></i> <span>Leyendas Resguardo</span></a></li>
                 <li
                 	th:classappend="${#strings.equals(page,'dependencias')} ? active : ''" sec:authorize="hasAnyRole('ADMIN', 'USER')"
                 ><a th:href="@{/dependencias/listado}"><i class="fa fa-building-o" aria-hidden="true"></i> <span>Dependencias</span></a></li>
@@ -22,7 +22,7 @@
                 ><a th:href="@{/usuarios/listado}"><i class="fa fa-user-circle" aria-hidden="true"></i> <span>Usuarios</span></a></li>
                 <li
                 	th:classappend="${#strings.equals(page,'simulador')} ? active : ''" sec:authorize="hasAnyRole('ADMIN')"
-                ><a href="/mosere/simulador.jsp"><i class="fa fa-user-circle" aria-hidden="true"></i> <span>Simulador</span></a></li>
+                ><a th:href="@{/simulador/listado}"><i class="fa fa-user-circle" aria-hidden="true"></i> <span>Simulador</span></a></li>
                 <li
                 	th:classappend="${#strings.equals(page,'resguardo')} ? active : ''" sec:authorize="hasAnyRole('ADMIN', 'USER')"
                 ><a href="/mosere/resguardo.jsp"><i class="fa fa-user-circle" aria-hidden="true"></i> <span>Resguardo</span></a></li>
