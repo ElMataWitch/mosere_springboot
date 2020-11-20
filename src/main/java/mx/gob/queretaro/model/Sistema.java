@@ -50,6 +50,10 @@ public class Sistema implements Serializable {
 	@OneToMany(mappedBy = "sistema")
 	private List<Etiqueta> etiquetas;
 
+	// Enlace FK RolesSistema
+	@OneToMany(mappedBy="sistema")
+	private List<RolSistema> rolSistemas;
+
 	public Sistema() {
 	}
 

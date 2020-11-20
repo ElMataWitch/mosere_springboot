@@ -197,7 +197,7 @@ var resguardos = {
                                     if (res !== null && res.length > 0) {
                                         flag = false;
                                     }
-
+//
                                 }
                                 return flag;
                             }
@@ -291,20 +291,20 @@ var resguardos = {
 
 
         this.btnReset.click(function () {
-            resguardos.resetFields();
+            resguardos.resetForm();
 
         });
         
         this.btnEditar.click(function () {
-          window.location.href = general.base_url+"/simulador.jsp?sys="+$("#sistema").val(); 
+          window.location.href = general.base_url+"/simulador/generar"; 
         });
 
         this.cmbSistema.on("change", function () {      
             resguardos.resetFields();
-
+            tInfoLeyendasTodos();
             //resguardos.muestraEtiquetas();
             resguardos.cargaRoles();
-          $('#contenedor').show();
+            $('#contenedor').show();
                 
                       
         
@@ -317,11 +317,12 @@ var resguardos = {
         });
         
         this.btnNuevoRol.click(function () {
-        resguardos.cargaFrmRol();
+            window.location.href = '/mosere/roles/listado';
         });
         
         this.btnResguardo.click(function () {
-       
+            
+            
 
         });
 
@@ -373,10 +374,10 @@ var resguardos = {
 
 
         resguardos.cmbSistema.select2({
-            placeholder: 'Ingresa el sistema',
+            placeholder: 'Ingrese Sistema',
             language: {
                 errorLoading: function () {
-                    return "Ingrese un sistema correcto";
+                    return "Ingrese un sistema existente";
                 },
                 noResults: function () {
                     return "No hay resultado";
@@ -385,45 +386,17 @@ var resguardos = {
                     return "Buscando..";
                 },
                 inputTooShort: function () {
-                    return 'Ingresa 3 caracteres';
+                    return '...';
                 }
 
-            },
-            ajax: {
-                url: 'sListaSistemas',
-                type: 'GET',
-                contentType: 'application/json; charset=utf-8',
-                delay: 25,
-                data: function (params) {
-                    return {
-                        dato: params.term,
-                    };
-                },
-                processResults: function (data, params) {
-                    return {
-                        
-                        results: $.map(data.datos, function (item) {
-                            return {
-                                id: item.ID,
-                                text: item.NOMBRE
-                            };
-                        })
-                    };
-                },
-                cache: true
-
-            },
-            escapeMarkup: function (markup) {
-                return markup;
-            },
-            minimumInputLength: 3
+            }
         });
 
         resguardos.cmbDependencia.select2({
-            placeholder: 'Ingresa la dependencia',
-             language: {
+            placeholder: 'Ingrese Dependencia',
+            language: {
                 errorLoading: function () {
-                    return "Ingrese una dependencia correcta";
+                    return "Ingrese un sistema existente";
                 },
                 noResults: function () {
                     return "No hay resultado";
@@ -432,38 +405,10 @@ var resguardos = {
                     return "Buscando..";
                 },
                 inputTooShort: function () {
-                    return 'Ingresa 3 caracteres';
+                    return '...';
                 }
 
-            },
-            ajax: {
-                url: 'sGestorDependencias',
-                type: 'GET',
-                contentType: 'application/json; charset=utf-8',
-                delay: 25,
-                data: function (params) {
-                    return {
-                        dependencia: params.term,
-                    };
-                },
-                processResults: function (data, params) {
-                    return {
-                        results: $.map(data.datos, function (item) {
-
-                            return {
-                                id: item.flexValue,
-                                text: item.description
-                            };
-                        })
-                    };
-                },
-                cache: true
-
-            },
-            escapeMarkup: function (markup) {
-                return markup;
-            },
-            minimumInputLength: 3
+            }
         });
 
     },
@@ -472,13 +417,10 @@ var resguardos = {
 
         $.ajax({
             type: 'GET',
-            url: 'sBuscaUsuarios?usuario=' + usuario,
+            url: '../api/ldapInfo/consultarUsuario/' + usuario,
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
-            responseType: 'json',
-            /*beforeSend: function (xhr) {
-             general.block();
-             },*/
+            responseType: 'json',                        
             success: function (resultado) {
                 try {
                     if (resultado.estatus === 'success') {
@@ -486,10 +428,11 @@ var resguardos = {
 
                          
                         $('#nombre').val(resultado.datos.nombre + " " + resultado.datos.apellido);
+                        var newOption = new Option($.trim(resultado.datos.secretaria).toUpperCase(), $.trim("0"), true, true);
+                        $('#dependencia').append(newOption).trigger('change');
                         $('#departamento').val(resultado.datos.direccion);
                         $('#correoUsuario').val(resultado.datos.correo);
-                        
-                         resguardos.buscaDependencia(resultado.datos.secretaria);
+                                                 
 
 
                     } else if (resultado.estatus === 'danger') {
@@ -650,7 +593,7 @@ var resguardos = {
         $('#apertura').summernote('code','');
         $('#mensaje').summernote('code','');
          
-        resguardos.muestraEtiquetas();
+        //resguardos.muestraEtiquetas();
 
     },
 
@@ -744,35 +687,40 @@ var resguardos = {
     },
     
     	cargaRoles : function() {
-             var idSistema = resguardos.cmbSistema.val();
-             
-             var datos = {
-            idSistema: idSistema
-             };
+            var idSistema = resguardos.cmbSistema.val();            
 		$.ajax({
-			type : 'POST',
-                        data:datos,
-			url : 'sCargaRoles',
+			type : 'GET',            
+			url : '../api/roles/obtenerRolesPorIdSistema/'+idSistema,
 			contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                         dataType: 'json',
-                        responseType: 'json',
+            // Indicar que esperamos un código JSON como respuesta
+            dataType: "json",
+            scriptCharset: "utf-8",
 			success : function(resultado) {
+                //console.log(resultado.estado);
+                //console.log(resultado.datos[0].rol.idRol);
 				try {
-					if (resultado.estatus === 'success') {
-                                            if(resultado.mensaje){
+					if (resultado.estado === 'exito') {
+                        //console.log("Si llega hasta aqui");
+                        resguardos.cmbTxtRol.empty();  
+                        $("#btnAgregarRol").show();
+                        if(resultado.mensaje){
                                               $.each(resultado.datos, function(i, item) {
-							resguardos.cmbTxtRol.append('<option value="' + $.trim(item.id) + '|' + $.trim(item.rol) + '|' + $.trim(item.descripcion) + '" >' + $.trim(item.rol) + '</option>');
+							resguardos.cmbTxtRol.append('<option value="' + $.trim(item.rol.idRol) + '|' + $.trim(item.rol.rol) + '|' + $.trim(item.rol.descripcion) + '" >' + $.trim(item.rol.rol) + '</option>');
 					      });
-
-
-                                            }else{
-                                                 general.notify('<strong>Nos se encontraron roles</strong><br />', 'No se han registrado roles para el sistema seleccionado.', 'warning', true);
-                                                 
-                                            }
+                        }else{
+                                general.notify('<strong>Nos se encontraron roles</strong><br />', 'No se han registrado roles para el sistema seleccionado.', 'warning', true);
+                                
+                        }
                                                 
 					} else {
 						general.notify('<strong>Mensaje del Sistema</strong><br />', resultado.mensaje, resultado.estatus, true);
-					}
+                    }                    
+                    if(resultado.datos.length === 0){
+                        general.notify('<strong>Nos se encontraron roles</strong><br />', 'No se han registrado roles para el sistema seleccionado.', 'warning', true);
+                        $("#btnAgregarRol").hide();
+                        resguardos.cmbTxtRol.empty();
+                        resguardos.cmbTxtRol.append('<option value="">No Existen Roles Para El Sistema Seleccionado</option>');
+                    }                   
 				} catch (e) {
 					setTimeout(function() {
 						general.notify('<strong>Ocurrió un error</strong><br />', 'Ocurrió un error al cargar los Roles: ' + e + '.', 'danger', true);
@@ -792,16 +740,15 @@ var resguardos = {
 	},
         
         cargaFrmRol: function () {
-        
-            
-	$.ajax({
+                    
+	/*$.ajax({
 	    type: 'GET',
-	    url: general.base_url+'/nuevoRol.jsp',
+	    url: general.base_url+'/nuevoRol',
 	    //data: datos,
 	    contentType: 'application/html; charset=utf-8',
 	   /* beforeSend: function (xhr) {
 		general.block();
-	    },*/
+	    },
 	    success: function (resultado) {
 		try {
 		    resguardos.modalRol = bootbox.dialog({
@@ -867,12 +814,12 @@ var resguardos = {
 	    complete: function () {
 		
 	    }
-	});
+	});*/
     },
     
      muestraEtiquetas: function () {
        
-         idSistema= resguardos.cmbSistema.val(); 
+         idSistema = resguardos.cmbSistema.val(); 
         
         
          
@@ -967,7 +914,7 @@ var resguardos = {
     },
     
         resetForm: function () {
-        $('#leyenda').summernote('reset');
+        /*$('#leyenda').summernote('reset');
         $('#cuerpo').summernote('reset');
         $('#apertura').summernote('reset');
         $('#mensaje').summernote('reset');
@@ -976,10 +923,10 @@ var resguardos = {
         $("#dependencia").select2("val", null);
         $("#nombre").val("");
         $("#departamento").val("");
-        $("#correo").val("");
+        $("#correo").val("");*/
 
 
-        window.location.href = '/mosere/resguardo.jsp';
+        window.location.href = '/mosere/resguardo/generar';
 
     },
     

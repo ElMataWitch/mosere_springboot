@@ -6,13 +6,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("simulador")
-public class SimuladorController {
+@RequestMapping("resguardo")
+public class ResguardoController {
 
 	@GetMapping("generar")
-	public String listado(ModelMap model) {
-		model.addAttribute("page", "simulador");
-		return "simulador/generar";
+	public String home(ModelMap model) {
+		model.addAttribute("page","resguardos");
+		return "resguardo/generar";
 	}
-
 }

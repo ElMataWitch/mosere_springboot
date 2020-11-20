@@ -7,25 +7,28 @@
                 ><a th:href="@{/home}"><i class="fa fa-home" aria-hidden="true"></i> <span>Inicio</span></a></li>
                 <li
                 	th:classappend="${#strings.equals(page,'seguimiento')} ? active : ''" sec:authorize="hasAnyRole('ADMIN', 'USER')"
-                ><a href="/mosere/seguimiento.jsp"><i class="fa fa-folder" aria-hidden="true"></i> <span>Seguimiento</span></a></li>
+                ><a href="/mosere/seguimiento.jsp"><i class="fa fa-calendar" aria-hidden="true"></i> <span>Seguimiento</span></a></li>
                 <li
                 	th:classappend="${#strings.equals(page,'sistemas')} ? active : ''" sec:authorize="hasAnyRole('ADMIN', 'USER')"
                 ><a th:href="@{/sistemas/listado}"><i class="fa fa-cog" aria-hidden="true"></i> <span>Sistemas</span></a></li>
                 <li
                 	th:classappend="${#strings.equals(page,'leyendas')} ? active : ''" sec:authorize="hasAnyRole('ADMIN', 'USER')"
-                ><a th:href="@{/leyendas/listado}"><i class="fa fa-file-text-o" aria-hidden="true"></i> <span>Leyendas Resguardo</span></a></li>
+                ><a th:href="@{/leyendas/listado}"><i class="fa fa-tags" aria-hidden="true"></i> <span>Leyendas Resguardo</span></a></li>
                 <li
                 	th:classappend="${#strings.equals(page,'dependencias')} ? active : ''" sec:authorize="hasAnyRole('ADMIN', 'USER')"
                 ><a th:href="@{/dependencias/listado}"><i class="fa fa-building-o" aria-hidden="true"></i> <span>Dependencias</span></a></li>
                 <li
+                	th:classappend="${#strings.equals(page,'roles')} ? active : ''" sec:authorize="hasAnyRole('ADMIN', 'USER')"
+                ><a th:href="@{/roles/listado}"><i class="fa fa-cogs" aria-hidden="true"></i> <span>Roles</span></a></li>
+                <li
                 	th:classappend="${#strings.equals(page,'usuarios')} ? active : ''" sec:authorize="hasAnyRole('ADMIN', 'USER')"
-                ><a th:href="@{/usuarios/listado}"><i class="fa fa-user-circle" aria-hidden="true"></i> <span>Usuarios</span></a></li>
+                ><a th:href="@{/usuarios/listado}"><i class="fa fa-users" aria-hidden="true"></i> <span>Usuarios</span></a></li>
                 <li
                 	th:classappend="${#strings.equals(page,'simulador')} ? active : ''" sec:authorize="hasAnyRole('ADMIN')"
-                ><a th:href="@{/simulador/listado}"><i class="fa fa-user-circle" aria-hidden="true"></i> <span>Simulador</span></a></li>
+                ><a th:href="@{/simulador/generar}"><i class="fa fa-object-group" aria-hidden="true"></i> <span>Plantillas</span></a></li>
                 <li
                 	th:classappend="${#strings.equals(page,'resguardo')} ? active : ''" sec:authorize="hasAnyRole('ADMIN', 'USER')"
-                ><a href="/mosere/resguardo.jsp"><i class="fa fa-user-circle" aria-hidden="true"></i> <span>Resguardo</span></a></li>
+                ><a th:href="@{/resguardo/generar}"><i class="fa fa-file-text-o" aria-hidden="true"></i> <span>Resguardo</span></a></li>
             </ul>
 	</section>	
 </aside>
