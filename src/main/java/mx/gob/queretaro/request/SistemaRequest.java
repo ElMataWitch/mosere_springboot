@@ -5,7 +5,6 @@ import java.util.Date;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,7 +24,7 @@ public class SistemaRequest implements Serializable {
 	@NotNull
 	@NotEmpty(message = "El nombre del sistema no debe ser vacio")
 	@Size(min = 4, max = 200)
-	@Pattern(regexp = "^^[a-zA-z]+$", message = "Debe contener solo letras")
+	//@Pattern(regexp = "^^[a-zA-z]+$", message = "Debe contener solo letras")
 	private String nombre;
 	@NotNull
 	private String enviaCorreo;

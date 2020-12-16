@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_Letter" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8ade98b5-7217-4c89-8eae-38eca9230e9c">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+    <parameter name="dependencia" class="java.lang.String"/>
+    <parameter name="departamento" class="java.lang.String"/>
+    <parameter name="encabezado" class="java.lang.String"/>
+    <parameter name="folio" class="java.lang.String"/>
+    <parameter name="leyenda" class="java.lang.String"/>
+    <parameter name="apertura" class="java.lang.String"/>
+    <parameter name="cuerpo" class="java.lang.String"/>
+    <parameter name="usuario" class="java.lang.String"/>
+    <parameter name="nombreUsuario" class="java.lang.String"/>
+    <parameter name="fecha" class="java.lang.String"/>
+    <parameter name="fechaLarga" class="java.lang.String"/>
+    <parameter name="hora" class="java.lang.String"/>
+    <parameter name="sistema" class="java.lang.String"/>
+    <parameter name="autoriza" class="java.lang.String"/>
+    <field name="rol" class="java.lang.String"/>
+    <field name="descripcion" class="java.lang.String"/>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="104" splitType="Stretch">
+            <textField>
+                <reportElement x="80" y="0" width="400" height="50" uuid="157b74d7-7abf-4cd5-9cde-1fd44d624319"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="13"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{encabezado}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="120" y="50" width="320" height="30" uuid="95facbcb-03c0-4351-af3e-5ebc00cf4d94"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Arial"/>
+                </textElement>
+                <textFieldExpression><![CDATA["RESGUARDO DE ACCESO AL " + $P{sistema}]]></textFieldExpression>
+            </textField>
+            <image>
+                <reportElement x="0" y="10" width="110" height="50" uuid="aa4793f6-4220-43a9-ac0d-a51a59a25d99"/>
+                <imageExpression><![CDATA["C:/Users/zelda/Downloads/1981684634_SPF_portal.JPG"]]></imageExpression>
+            </image>
+            <textField>
+                <reportElement x="280" y="80" width="290" height="20" uuid="badab14f-89ce-48d4-9ab3-d7527a0aed50"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="Arial"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Santiago de Querpetaro, Qro.," + $P{fechaLarga}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <pageHeader>
+        <band height="329" splitType="Stretch">
+            <textField>
+                <reportElement isPrintRepeatedValues="false" x="0" y="0" width="570" height="50" uuid="68ae2e95-215a-4dd0-9324-24b062c2fa38"/>
+                <textElement textAlignment="Justified">
+                    <font fontName="Arial" size="7" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{leyenda}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement isPrintRepeatedValues="false" x="0" y="50" width="330" height="20" uuid="ab0182e8-3fb3-4f69-9cbb-508d70943e07"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Se Autoriza a el(la) C.  " + $P{nombreUsuario} + ", adscrito a la:"]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement isPrintRepeatedValues="false" x="0" y="70" width="280" height="20" uuid="beb30794-7a2a-433f-ab61-7234e0921497"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{dependencia}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement isPrintRepeatedValues="false" x="0" y="90" width="280" height="20" uuid="3030468f-46dd-4830-a9db-a9d2b5d07dd5"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{departamento}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement isPrintRepeatedValues="false" x="0" y="120" width="570" height="50" uuid="a86382f0-c425-44c9-b8f4-82ca5e7f0ec0"/>
+                <textElement textAlignment="Justified" verticalAlignment="Middle">
+                    <font fontName="Arial" size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Al uso de la cuenta "+$P{usuario}+", con la que podrá acceder al "+$P{sistema}+", el usuario se compromete, con fundamento en la Ley General de Responsabilidades Administras en su artículo 7, fracción VI y demás aplicables, así como en la normatividad o reglamentación que regule el caso concreto, a no dilvulgar su contraseña la cual es secreta y confidencial por lo que los movimientos registrados con dicha cuenta en los archivos históricos serán responsabilidad única y exclusiva del servidor público (a quien en lo sucesivo se le denominará el usuario). "]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement isPrintRepeatedValues="false" x="0" y="170" width="570" height="50" uuid="6e8a73ee-3981-49b4-9588-7a70c06d0650"/>
+                <textElement textAlignment="Justified" verticalAlignment="Middle">
+                    <font fontName="Arial" size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["La información confidencial que por la naturaleza de su nombramiento, en este acto se le confía al usuario, así como los derechos otorgados a su cuenta para obtener, utilizar y/o alimentar los sistemas computacionales, son propiedad del Gobierno del Estado de Querétaro, por lo que se le prohibe al usuario por sí o por interpósita persona, divulgar, sustraer, lucrar, destruir, ocultar o utilizar indebidamente la información que se encuentre bajo su custodia o a la cual tenga acceso o conocimiento. "]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement isPrintRepeatedValues="false" x="0" y="220" width="570" height="20" uuid="d316be19-4b0f-4ee9-86b2-3c7a2a4caea3"/>
+                <textElement textAlignment="Justified" verticalAlignment="Middle">
+                    <font fontName="Arial" size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Las opciones a las que el usuario tiene acceso del "+$P{sistema}+", se anexan al presente y deberá firmarse un nuevo resguardo en el caso de que se modifique alguna de ellas."]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement isPrintRepeatedValues="false" x="1" y="240" width="570" height="50" uuid="79759f9b-09d6-4501-bd5e-2ff424b66e81"/>
+                <textElement textAlignment="Justified" verticalAlignment="Middle">
+                    <font fontName="Arial" size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["La Dirección de Tecnologías de la Información se reserva el derecho de bloquear o cancelar esta cuenta sin previo aviso y hace constar que la contraseña tecleada por el usuario se encuentra codificada por medio de algoritmos ajenos a Gobierno del Estado de Querétaro, lo que la hace inaccesible a cualquier Administrador de los sistemas y/o equipos dentro de Gobierno. En caso de que el usuario olvide su contraseña, deberá notificarlo al Administrador correspondiente, para que éste proceda a inicializarla teniendo que firmarse un nuevo resguardo."]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement isPrintRepeatedValues="false" x="-1" y="290" width="571" height="30" uuid="736c34eb-4102-4faf-9022-d78ff26b7997"/>
+                <textElement textAlignment="Justified" verticalAlignment="Middle">
+                    <font fontName="Arial" size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Enterada la parte usuaria del contenido y alcance del presente resguardo, acepta las condiciones que para el acceso al "+$P{sistema}+", aquí se consignan, firmado de conformidad el "+$P{fechaLarga}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="20" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="180" height="20" uuid="95bcea62-075a-4b44-b526-dfc1b945d6af"/>
+                <box>
+                    <bottomPen lineWidth="1.0"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Arial" size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[NOMBRE ROL]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="180" y="0" width="390" height="20" uuid="6e96ef4e-c85a-4d8b-b692-e1062e376643"/>
+                <box>
+                    <bottomPen lineWidth="1.0"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="Arial" size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[DESCRIPCIÓN]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="14" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="180" height="14" uuid="bb7ff0cb-a873-497e-a2f8-7d7effe8697b">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7dd3aca8-3234-4d66-8914-fef529c6c0d5"/>
+                </reportElement>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="Arial" size="7"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{rol}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="180" y="0" width="390" height="14" uuid="e571f8a3-e13f-49a7-adca-2828d60b1dc3">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dc753b59-f8b4-4d44-99f6-c7ba22799bf7"/>
+                </reportElement>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="Arial" size="7"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <columnFooter>
+        <band height="14" splitType="Stretch"/>
+    </columnFooter>
+    <pageFooter>
+        <band height="116" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="40" width="270" height="30" uuid="c1eca74f-5be4-4ca6-836d-ee9f4c5bb55a"/>
+                <box>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Arial" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[FIRMA DEL USUARIO]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="290" y="40" width="280" height="30" uuid="434b26fa-23ea-48a3-8d64-680e5383e06f"/>
+                <box>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Arial" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[NOMBRE Y FIRMA DEL JEFE INMEDIATO SUPERIOR y/O PERSONA QUE AUTORIZA]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="10" y="70" width="260" height="30" uuid="a56524d8-46b9-49c3-b429-c156325cb6a6"/>
+                <box>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Arial" size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{nombreUsuario}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="290" y="70" width="271" height="30" uuid="9596b0e3-3b5d-4955-abd9-e94522b608dc"/>
+                <box>
+                    <bottomPen lineWidth="1.0"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Arial" size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{autoriza}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="-1" y="0" width="571" height="14" uuid="c88e84e8-618f-4b18-b632-7f1d250df912"/>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Arial" size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[]]></text>
+            </staticText>
+        </band>
+    </pageFooter>
+    <summary>
+        <band height="42" splitType="Stretch"/>
+    </summary>
+</jasperReport>

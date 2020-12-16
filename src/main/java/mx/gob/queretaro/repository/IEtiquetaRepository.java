@@ -25,7 +25,8 @@ public interface IEtiquetaRepository extends JpaRepository<Etiqueta,Short>{
 	@Query("SELECT NEW Etiqueta(e.idEtiqueta, e.sistema, "
 			+ "e.posicion, e.descripcion) "
 			+ "FROM Etiqueta e "
-			+ "WHERE e.sistema = :sistema")
+			+ "WHERE e.sistema = :sistema "
+			+ "AND e.estatus = 'AC'")
 	List<Etiqueta> obtenerPorIdSistema(@Param("sistema") Sistema sistema);
 
 	@Query("SELECT NEW Etiqueta(e.idEtiqueta, e.sistema, "
@@ -34,6 +35,7 @@ public interface IEtiquetaRepository extends JpaRepository<Etiqueta,Short>{
 			+ "e.fechaCaptura, e.usuarioEditor, "
 			+ "e.fechaEdicion) "
 			+ "FROM Etiqueta e "
+			+ "WHERE e.estatus = 'AC'"
 			+ "ORDER BY e.idEtiqueta ASC")
 	List<Etiqueta> obtenerTodos();
 

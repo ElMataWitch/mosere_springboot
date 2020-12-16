@@ -29,7 +29,7 @@ public class UsuarioMosereServiceImpl implements IUsuarioMosereService{
 	@Override
 	public List<UsuarioMosere> obtenerUsuarios() throws InternalException {
 		try {
-			return usuarioMosereRepository.findAll();
+			return usuarioMosereRepository.obtenerTodos();
 		} catch (Exception ex) {
 			log.error("Ocurrio un eror al obtener los usuarios", ex);
 			throw new InternalException("Ocurrio un eror al obtener los usuarios");

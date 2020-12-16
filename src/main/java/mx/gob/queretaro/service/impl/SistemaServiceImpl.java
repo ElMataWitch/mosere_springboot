@@ -29,7 +29,7 @@ public class SistemaServiceImpl implements ISistemaService {
 	@Override
 	public List<Sistema> obtenerSistemas() throws InternalException {
 		try {
-			return sistemaRepository.findAll();
+			return sistemaRepository.obtenerTodos();
 		} catch (Exception ex) {
 			log.error("Ocurrio un eror al obtener los sistemas", ex);
 			throw new InternalException("Ocurrio un eror al obtener los sistemas");

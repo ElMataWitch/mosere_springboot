@@ -4,11 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,7 +29,7 @@ public class EtiquetaRequest implements Serializable{
 	private String posicion;
 	@NotNull
 	@NotEmpty(message = "no debe ser vacio")
-	@Size(min = 4, max = 2800)
+	@Size(min = 4, max = 4000)
 	private String descripcion;
 	@NotNull
 	private String estatus;

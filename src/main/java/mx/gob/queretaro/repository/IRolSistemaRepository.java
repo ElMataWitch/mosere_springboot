@@ -18,6 +18,7 @@ public interface IRolSistemaRepository extends JpaRepository<RolSistema, Short>{
 			+ "FROM RolSistema r "
 			+ "INNER JOIN r.rol ro ON ro.idRol = r.rol "
 			+ "WHERE r.sistema = :sistema "
+			+ "AND r.estatus = 'AC' "
 			+ "ORDER BY ro.idRol ASC")
 	List<RolSistema> obtenerRolesPorSistema(@Param("sistema") Sistema sistema);
 
@@ -27,6 +28,7 @@ public interface IRolSistemaRepository extends JpaRepository<RolSistema, Short>{
 			+ "r.usuarioCaptura, r.fechaCaptura, "
 			+ "r.usuarioEditor, r.fechaEdicion) "
 			+ "FROM RolSistema r "
+			+ "WHERE r.estatus = 'AC' "
 			+ "ORDER BY r.idRolSistema ASC")
 	List<RolSistema> obtenerTodos();
 

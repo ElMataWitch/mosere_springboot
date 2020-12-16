@@ -10,4 +10,5 @@ public class MosereSpringbootApplication {
 		SpringApplication.run(MosereSpringbootApplication.class, args);
 	}
 
+
 }

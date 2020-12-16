@@ -13,11 +13,28 @@ import mx.gob.queretaro.model.Sistema;
 public interface ISistemaRepository extends JpaRepository<Sistema, Short> {
 	@Query("SELECT NEW Sistema(s.idSistema, s.nombre) "
 			+ "FROM Sistema s "
-			+ "WHERE s.idSistema = :id")
+			+ "WHERE s.idSistema = :id ")
 	Sistema obtenerPorId(@Param("id") Short id);
+
+	@Query("SELECT NEW Sistema("
+			+ "s.idSistema, "
+			+ "s.nombre, "
+			+ "s.enviaCorreo, "
+			+ "s.estatus, "
+			+ "s.usuarioCaptura, "
+			+ "s.fechaCaptura, "
+			+ "s.usuarioEditor, "
+			+ "s.fechaEdicion, "
+			+ "s.descripcion"
+			+ ") "
+			+ "FROM Sistema s "
+			+ "WHERE s.estatus = 'AC' "
+			+ "ORDER BY s.idSistema ASC")
+	List<Sistema> obtenerTodos();
 
 	@Query("SELECT NEW Sistema(s.idSistema, s.nombre) "
 			+ "FROM Sistema s "
+			+ "WHERE s.estatus = 'AC' "
 			+ "ORDER BY s.idSistema ASC")
 	List<Sistema> obtenerIdNombre();
 

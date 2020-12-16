@@ -35,4 +35,39 @@ public class RolServiceImpl implements IRolService {
 		}
 	}
 
+	@Override
+	public Rol obtenerRolPorId(Short id) throws InternalException {
+		if (null != id ) {
+			try {
+				return rolRepository.obtenerRolPorId(id);
+			} catch (Exception ex) {
+				log.error(String.format("Ocurrio un error al obtener el rol con el id : %s", id), ex);
+				throw new InternalException(String.format("Ocurrio un error al obtener el rol con el id : %s", id));
+			}
+		} else {
+			throw new InternalException("El id del rol no debe ser nulo o vacio.");
+		}
+	}
+
+	@Override
+	public void eliminarRol(Short id) throws InternalException {
+		if(null != id ) {
+			try {
+				Rol rol = rolRepository.findById(id).orElse(null);
+				if(null != rol) {
+					rolRepository.eliminarRol(id);
+				}else {
+					throw new InternalException("El id del rol no existe en base de datos");
+				}
+			} catch (InternalException ex) {
+				throw ex;
+			} catch (Exception ex) {
+				log.error(String.format("Ocurrio un error al borrar el rol con el id : %d", id),ex);
+				throw new InternalException(String.format("Ocurrio un error al borrar el rol con el id : %d", id));
+			}
+		}else {
+			throw new InternalException("El id del rol no debe ser nulos o vacios");
+		}
+	}
+
 }

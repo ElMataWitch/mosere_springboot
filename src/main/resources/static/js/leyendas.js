@@ -374,5 +374,5 @@ $(window).resize(function(){
     actionFormatter();
 });
 tInfoListaSistemas();
-tInfoListaPosiciones();
+//tInfoListaPosiciones();
 botones();

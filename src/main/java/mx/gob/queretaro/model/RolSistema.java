@@ -61,12 +61,10 @@ public class RolSistema implements Serializable {
 	public RolSistema() {
 	}
 
-
 	public RolSistema(Rol rol) {
 
 		this.rol = rol;
 	}
-
 
 	public RolSistema(Short idRolSistema, String estatus, String usuarioCaptura, Date fechaCaptura,
 			String usuarioEditor, Date fechaEdicion) {

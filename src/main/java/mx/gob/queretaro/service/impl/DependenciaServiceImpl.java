@@ -29,7 +29,7 @@ public class DependenciaServiceImpl implements IDependenciaService {
 	@Override
 	public List<Dependencia> obtenerSistemas() throws InternalException {
 		try {
-			return dependenciaRepository.findAll();
+			return dependenciaRepository.obtenerTodos();
 		} catch (Exception ex) {
 			log.error("Ocurrio un eror al obtener las dependencias", ex);
 			throw new InternalException("Ocurrio un eror al obtener las dependencias");

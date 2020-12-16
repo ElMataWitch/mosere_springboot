@@ -1,6 +1,7 @@
 package mx.gob.queretaro.repository;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -10,6 +11,19 @@ import org.springframework.data.repository.query.Param;
 import mx.gob.queretaro.model.UsuarioMosere;
 
 public interface IUsuarioMosereRepository extends JpaRepository<UsuarioMosere, Short>{
+
+	@Query("SELECT NEW UsuarioMosere("
+			+ "u.idUsuarioMosere, "
+			+ "u.usuario, "
+			+ "u.estatus, "
+			+ "u.usuarioCaptura, "
+			+ "u.fechaCaptura, "
+			+ "u.usuarioEditor, "
+			+ "u.fechaEdicion"
+			+ ") "
+			+ "FROM UsuarioMosere u "
+			+ "WHERE u.estatus = 'AC'")
+	List<UsuarioMosere> obtenerTodos();
 
 	@Query("SELECT NEW UsuarioMosere(u.idUsuarioMosere, u.usuario) "
 			+ "FROM UsuarioMosere u "

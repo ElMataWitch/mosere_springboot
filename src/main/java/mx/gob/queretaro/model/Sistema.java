@@ -54,6 +54,10 @@ public class Sistema implements Serializable {
 	@OneToMany(mappedBy="sistema")
 	private List<RolSistema> rolSistemas;
 
+	// Enlace FK Resguardos
+	@OneToMany(mappedBy = "sistema")
+	private List<Resguardos> resguardos;
+
 	public Sistema() {
 	}
 
@@ -172,5 +176,6 @@ public class Sistema implements Serializable {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+
 
 }

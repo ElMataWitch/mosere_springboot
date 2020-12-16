@@ -2,6 +2,7 @@ package mx.gob.queretaro.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -39,6 +41,10 @@ public class Dependencia implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "FECHA_U", nullable = false)
 	private Date fechaEdicion;
+
+	// Enlace FK Usuario
+	@OneToMany(mappedBy = "dependencia")
+	private List<Usuario> usuarios;
 
 	public Dependencia() {
 	}

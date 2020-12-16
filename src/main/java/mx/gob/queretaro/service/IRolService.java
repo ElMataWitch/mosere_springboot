@@ -7,4 +7,8 @@ import mx.gob.queretaro.model.Rol;
 
 public interface IRolService {
 	List<Rol> obtenerRoles() throws InternalException;
+
+	Rol obtenerRolPorId(Short id) throws InternalException;
+
+	void eliminarRol(Short id) throws InternalException;
 }

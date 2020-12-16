@@ -1,4 +1,6 @@
 /* global general, bootbox, e */
+var idRoles = "";
+var band = "";
 var plantillas = {
 
     cmbDependencia: null,
@@ -6,6 +8,8 @@ var plantillas = {
     leyenda: null,
     cuerpo: null,
     apertura: null,
+    autoriza: null,
+    correo: null,
     mensaje: null,
     sFormulario: null,
     cmbSistema: null,
@@ -15,8 +19,20 @@ var plantillas = {
     correo: null,
     btnBuscar: null,
     EnableBuscar: null,
+    EnableResguardo: null,
     dependenciaTxt: null,
     tListaEtiquetas: null,
+    
+
+    btnNuevoRol:null,
+    
+    tblRoles: null,
+    cmbTxtRol: null,
+    btnAgregarRol:null,
+
+    
+
+    btnResguardo: null,
 
     //metodos
     init: function () {
@@ -31,7 +47,10 @@ var plantillas = {
         this.apertura = $('#apertura');
         this.mensaje = $('#mensaje');
         this.usuario = $('#usuario');
+        this.autoriza = $('#autoriza');
+        this.correo = $('#correo');
         this.EnableBuscar = $('#EnableBuscar');
+        this.EnableResguardo = $('#EnableResguardo');
         /// this.dependenciaTxt = $('#dependenciaTxt');
 
         this.cmbSistema = $('#sistema');
@@ -43,11 +62,26 @@ var plantillas = {
         this.btnVisualiza = $('#btnVisualiza');
         this.btnReset = $('#btnReset');
         this.btnBuscar = $('#btnBuscar');
-        this.btresguardo = $('#btresguardo');
-        this.btresguardo = $('#btresguardo');
+        this.btresguardo = $('#btresguardo');        
+
+        this.cmbTxtRol = $('#cmbTxtRol');
+        this.btnAgregarRol = $('#btnAgregarRol');
    
+        this.tblRoles = $('#tblRoles');
+        this.tblRoles.bootstrapTable('load',"");
+        
+   
+        this.tblRoles.bootstrapTable();
+     
+        this.tblRoles.bootstrapTable('resetView');
+
+        this.btnNuevoRol = $('#btnNuevoRol');
+
+        this.btnResguardo = $('#btnResguardo');
 
         //this.cargaVariables();
+
+        
 
         plantillas.encabezado.summernote({
             disableDragAndDrop: true,
@@ -65,9 +99,7 @@ var plantillas = {
                     }
                 }
             }
-        }).on('summernote.change', function (customEvent, contents, $editable) {
-            plantillas.sFormulario.formValidation('revalidateField', plantillas.encabezado.attr('name'));
-        }).end();
+        });
 
 
 
@@ -87,9 +119,7 @@ var plantillas = {
                     }
                 }
             }
-        }).on('summernote.change', function (customEvent, contents, $editable) {
-            plantillas.sFormulario.formValidation('revalidateField', plantillas.leyenda.attr('name'));
-        }).end();
+        });
 
 
         plantillas.apertura.summernote({
@@ -108,9 +138,7 @@ var plantillas = {
                     }
                 }
             }
-        }).on('summernote.change', function (customEvent, contents, $editable) {
-            plantillas.sFormulario.formValidation('revalidateField', plantillas.apertura.attr('name'));
-        }).end();
+        });
 
         plantillas.cuerpo.summernote({
             disableDragAndDrop: true,
@@ -128,9 +156,7 @@ var plantillas = {
                     }
                 }
             }
-        }).on('summernote.change', function (customEvent, contents, $editable) {
-            plantillas.sFormulario.formValidation('revalidateField', plantillas.cuerpo.attr('name'));
-        }).end();
+        });
 
 
         plantillas.mensaje.summernote({
@@ -149,149 +175,56 @@ var plantillas = {
                     }
                 }
             }
-        }).on('summernote.change', function (customEvent, contents, $editable) {
-            plantillas.sFormulario.formValidation('revalidateField', plantillas.mensaje.attr('name'));
-        }).end();
-
-
-
-        plantillas.sFormulario.formValidation({excluded: [':disabled'],
-            live: 'enabled',
-            locale: 'es_ES',
-            fields: {
-                encabezado: {
-                    validators: {
-                        callback: {
-                            message: 'Las cajas de texo no pueden contener caracteres especiales ni estar vacias',
-                            callback: function (value, validator, $field) {
-                                var flag = true;
-                                var code = plantillas.encabezado.summernote('code');
-                                if (code === '' || code === '<p><br></p>' || code === '<br>' || code === '&nbsp;<br>') {
-                                    flag = false;
-                                } else {
-                                    var res = code.match(/[^\x22\&\=\{\}\w\d\sá-úÁ-Úä-üÄ-ü\,\.\;\:\-\+\ª\(\)\'\>\<\/\!\¿\¡\¡\?\¡\*\[\]]/g);
-                                    if (res !== null && res.length > 0) {
-                                        flag = false;
-                                    }
-
-                                }
-                                return flag;
-                            }
-                        }
-                    }
-                },
-                leyenda: {
-                    validators: {
-                        callback: {
-                            message: 'Las cajas de texo no pueden contener caracteres especiales ni estar vacias',
-                            callback: function (value, validator, $field) {
-                                var flag = true;
-                                var code = plantillas.leyenda.summernote('code');
-                                if (code === '' || code === '<p><br></p>' || code === '<br>') {
-                                    flag = false;
-                                } else {
-                                    var res = code.match(/[^\x22\&\=\{\}\w\d\sá-úÁ-Úä-üÄ-ü\,\.\;\:\-\+\ª\(\)\'\>\<\/\!\¿\¡\¡\?\¡\*\[\]]/g);
-                                    if (res !== null && res.length > 0) {
-                                        flag = false;
-                                    }
-
-                                }
-                                return flag;
-                            }
-                        }
-                    }
-                },
-                apertura: {
-                    validators: {
-                        callback: {
-                            message: 'Las cajas de texo no pueden contener caracteres especiales ni estar vacias',
-                            callback: function (value, validator, $field) {
-                                var flag = true;
-                                var code = plantillas.apertura.summernote('code');
-                                if (code === '' || code === '<p><br></p>' || code === '<br>') {
-                                    flag = false;
-                                } else {
-                                    var res = code.match(/[^\x22\&\=\{\}\w\d\sá-úÁ-Úä-üÄ-ü\,\.\;\:\-\+\ª\(\)\'\>\<\/\!\¿\¡\¡\?\¡\*\[\]]/g);
-                                    if (res !== null && res.length > 0) {
-                                        flag = false;
-                                    }
-
-                                }
-                                return flag;
-                            }
-                        }
-                    }
-                },
-                cuerpo: {
-                    validators: {
-                        callback: {
-                            message: 'Las cajas de texo no pueden contener caracteres especiales ni estar vacias',
-                            callback: function (value, validator, $field) {
-                                var flag = true;
-                                var code = plantillas.cuerpo.summernote('code');
-                                if (code === '' || code === '<p><br></p>' || code === '<br>') {
-                                    flag = false;
-                                } else {
-                                    var res = code.match(/[^\x22\&\=\{\}\w\d\sá-úÁ-Úä-üÄ-ü\,\.\;\:\-\+\ª\(\)\'\>\<\/\!\¿\¡\¡\?\¡\*\[\]]/g);
-                                    if (res !== null && res.length > 0) {
-                                        flag = false;
-                                    }
-
-                                }
-                                return flag;
-                            }
-                        }
-                    }
-                },
-                mensaje: {
-                    validators: {
-                        callback: {
-                            message: 'Las cajas de texo no pueden contener caracteres especiales ni estar vacias',
-                            callback: function (value, validator, $field) {
-                                var flag = true;
-                                var code = plantillas.mensaje.summernote('code');
-                                if (code === '' || code === '<p><br></p>' || code === '<br>') {
-                                    flag = false;
-                                } else {
-                                    var res = code.match(/[^\x22\&\=\{\}\w\d\sá-úÁ-Úä-üÄ-ü\,\.\;\:\-\+\ª\(\)\'\>\<\/\!\¿\¡\¡\?\¡\*\[\]]/g);
-                                    if (res !== null && res.length > 0) {
-                                        flag = false;
-                                    }
-
-                                }
-                                return flag;
-                            }
-                        }
-                    }
-                }
-            }
-
-        }).on('success.form.fv', function (e) {
-            e.preventDefault();
-            var activeElement = document.activeElement;
-            if (activeElement.type === 'submit') {
-                if (activeElement.value === 'ver') {
-
-                    plantillas.previsualizar();
-
-                } else if (activeElement.value === 'guardar') {///si es guardar plantilla
-
-                    plantillas.guardarPlantilla();
-                }
-
-            }
-
-
-        }).on('err.form.fv', function (e) {
-            $('html, body').animate({scrollTop: 0}, 'slow');
-            general.notify('<strong>Mensaje del Sistema</strong><br />', 'Los campos (*) obligatorios, son requeridos.', 'warning', true);
         });
 
 
 
+        
+
+        this.btnAgregarRol.click(function () {
+            plantillas.agregarRol($.trim(plantillas.cmbTxtRol.val()));
+         });
+
+        this.btnAgregarRol.click(function () {
+            plantillas.agregarRol($.trim(plantillas.cmbTxtRol.val()));
+         });
+         
+
         this.btnReset.click(function () {
             plantillas.resetForm();
 
+        });
+
+        this.btnNuevoRol.click(function () {
+            window.location.href = '/mosere/roles/listado';
+        });
+
+        this.btnResguardo.click(function () {     
+            var fecha = new Date();
+            var anio = fecha. getFullYear();       
+            console.log("boton verde");            
+            var datos = {
+                "idResguardo": 0,
+                "anio": anio,                
+                "usuario": $("#usuario").val(),
+                "nombre": $("#nombre").val(),
+                "dependenciaName": $("#dependenciaName").val(),
+                "departamento": $("#departamento").val(),
+                "autoriza": $("#autoriza").val(),
+                "correo": $("#correo").val(),
+                "estatus": "AC",
+                "usuarioCaptura": "ehermosillo",
+                "sistema": $("#sistemaName").val(),
+                "idSistema": $("#idSistema").val()
+            }                
+            console.log(datos);
+            jajaxPost(datos) 
+            
+        });
+
+        this.btnVisualiza.click(function () {  
+            console.log("dandole");
+            $("#sFormulario").submit();
         });
 
 
@@ -301,12 +234,23 @@ var plantillas = {
             //if(plantillas.cmbSistema.val()!==seleccionado){
             if (plantillas.cmbSistema.val() !== seleccionado) {
                 plantillas.limpiaParametros();
+                $("#sistemaName").val($("#sistema option:selected").text());
+                $("#idSistema").val($('#sistema option:selected').val());
+                plantillas.cargaRoles();
                // plantillas.limpiaUsuario();
                 //plantillas.obtieneEtiquetas(); aca es donde comenzare tabla para usarla                
+                $('#contenedor').show();
                 tInfoLeyendasTodos();
             }
 
         });
+
+        this.cmbDependencia.on("change", function () {            
+                plantillas.limpiaParametros();
+                $("#dependenciaName").val($("#dependencia option:selected").text());                       
+
+        });
+        
 
 
         this.btnBuscar.click(function () {
@@ -336,6 +280,31 @@ var plantillas = {
                 general.notify('<strong>Campos vacios</strong><br />', 'Ingrese el usuario por favor.', 'warning', true);
                 plantillas.EnableBuscar.prop('checked', false);
 
+            }
+
+        });
+
+        this.EnableResguardo.click(function () {
+            
+            console.log("llegamos")
+                        
+            if(band != 0 && band != ""){
+                console.log(false);  
+                $("#btnVisualiza").show('slow');
+                $("#btnResguardo").hide('slow');
+                //$("#sFormulario").attr("action",'/mosere/api/resguardo/visualizarResguardo');   
+                //$("#sFormulario").attr("method",'GET');
+                band -= 1;        
+            }else{
+                console.log(true);              
+                band += 1;
+                $("#btnVisualiza").hide('slow');
+                $("#btnResguardo").show('slow'); 
+                //$("#sFormulario").attr("action",'/mosere/api/resguardo/guardar'); 
+                //$("#sFormulario").attr("method",'POST');
+                //$("#sFormulario").attr("target",''); 
+                
+               
             }
 
         });
@@ -396,6 +365,58 @@ var plantillas = {
 
 
     },
+    cargaRoles : function() {
+        var idSistema = plantillas.cmbSistema.val();            
+    $.ajax({
+        type : 'GET',            
+        url : '../api/roles/obtenerRolesPorIdSistema/'+idSistema,
+        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+        // Indicar que esperamos un código JSON como respuesta
+        dataType: "json",
+        scriptCharset: "utf-8",
+        success : function(resultado) {
+            //console.log(resultado.estado);
+            //console.log(resultado.datos[0].rol.idRol);
+            try {
+                if (resultado.estado === 'exito') {
+                    //console.log("Si llega hasta aqui");
+                    plantillas.cmbTxtRol.empty();  
+                    $("#btnAgregarRol").show();
+                    if(resultado.mensaje){
+                                          $.each(resultado.datos, function(i, item) {
+                        plantillas.cmbTxtRol.append('<option value="' + $.trim(item.rol.idRol) + '|' + $.trim(item.rol.rol) + '|' + $.trim(item.rol.descripcion) + '" >' + $.trim(item.rol.rol) + '</option>');
+                      });
+                    }else{
+                            general.notify('<strong>Nos se encontraron roles</strong><br />', 'No se han registrado roles para el sistema seleccionado.', 'warning', true);
+                            
+                    }
+                                            
+                } else {
+                    general.notify('<strong>Mensaje del Sistema</strong><br />', resultado.mensaje, resultado.estatus, true);
+                }                    
+                if(resultado.datos.length === 0){
+                    general.notify('<strong>Nos se encontraron roles</strong><br />', 'No se han registrado roles para el sistema seleccionado.', 'warning', true);
+                    $("#btnAgregarRol").hide();
+                    plantillas.cmbTxtRol.empty();
+                    plantillas.cmbTxtRol.append('<option value="">No Existen Roles Para El Sistema Seleccionado</option>');
+                }                   
+            } catch (e) {
+                setTimeout(function() {
+                    general.notify('<strong>Ocurrió un error</strong><br />', 'Ocurrió un error al cargar los Roles: ' + e + '.', 'danger', true);
+                }, 500);
+            }
+        },
+        error : function() {
+            general.unblock();
+            setTimeout(function() {
+                general.notify('<strong>Ocurrió un error</strong><br />', 'Ocurrió un error en la petición al servidor al cargar los Roles.', 'danger', true);
+            }, 500);
+        },
+        complete : function() {
+                general.unblock();
+        }
+    });
+},
 
     usuarioAutomatico: function () {
 
@@ -405,10 +426,12 @@ var plantillas = {
 
 
         //$('#dependenciaTxt').prop('disabled', true);
+        /*
         $('#departamento').prop('disabled', true);
         $('#usuario').prop('disabled', true);
         $('#nombre').prop('disabled', true);
         $('#dependencia').prop('disabled', true);
+        */
        // $('#autoriza').prop('disabled', true);
     },
 
@@ -479,61 +502,51 @@ var plantillas = {
                 descripcion: 'Rol del Administrador del Sistema'
             }];
 
-
+            /*
         var datos = {
-            sistema: sistema,
-            nombreUsuario: nombre,
             dependencia: dependencia,
             departamento: departamento,
-            autorizaName: autorizador,
-            usuario: usuario,
+            encabezado: encabezado,
+            folio: null,
             leyenda: leyenda,
-            cabezal: encabezado,
             apertura: apertura,
             cuerpo: cuerpo,
-            roles: roles
-        };
+            roles: roles,
+            usuario: usuario,
+            nombreUsuario: nombre,
+            sistema: sistema,                                    
+            autorizaName: autorizador                                                             
+        }*/
+        
+        var datos = {
+            "idResguardo": 0,
+            "ejercicio": 0,
+            "dependencia": dependencia,
+            "departamento": departamento,
+            "encabezado": encabezado,
+            "folio": "2020",
+            "leyenda": leyenda,
+            "apertura": apertura,
+            "cuerpo": cuerpo,
+            "usuario": usuario,
+            "nombreUsuario": nombre,
+            "jefeInmediato": null,
+            "correo": null,
+            "enviado": null,
+            "recibido": null,
+            "fechaEmision": "2020-11-24T03:21:09.126Z",
+            "fechaRecibido": "2020-11-24T03:21:09.126Z",
+            "estatus": "AC",
+            "usuarioCaptura": "ehermosillo",
+            "fechaCaptura": "2020-11-24T03:21:09.126Z",
+            "usuarioEditor": null,
+            "fechaEdicion": "2020-11-24T03:21:09.126Z"
+          };
 
+        
 
-
-        $.ajax({
-            type: 'POST',
-            url: 'sVisorResguardo',
-            data: JSON.stringify(datos),
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            responseType: 'json',
-            /*beforeSend: function (xhr) {
-             general.block();
-             },*/
-            success: function (resultado) {
-                try {
-                    if (resultado.estatus === 'success') {
-                        general.notify('<strong>Mensaje del Sistema</strong><br />', resultado.mensaje, resultado.estatus, true);
-                        //var pdfResult = JSON.parse(resultado.datos);
-                        var pdfResult = resultado.datos;
-                        let pdfWindow = window.open("");
-                        pdfWindow.document.write("<iframe width='100%' height='100%' src='data:application/pdf;base64, " + encodeURI(pdfResult) + "'></iframe>");
-
-                    }
-
-                } catch (e) {
-                    setTimeout(function () {
-                        general.notify('<strong>Ocurrió un error</strong><br />', 'Ocurrió un error en la impresion: ' + e + '.', 'danger', true);
-                    }, 500);
-                }
-            },
-            error: function () {
-                general.unblock();
-                setTimeout(function () {
-                    general.notify('<strong>Ocurrió un error</strong><br />', 'Ocurrió un error en la petición al servidor al generar la impresion.', 'danger', true);
-                }, 500);
-            },
-            complete: function () {
-                return false;
-                general.unblock();
-            }
-        });
+        //console.log(datos);
+        jajaxPost(datos);
 
     },
 
@@ -553,11 +566,11 @@ var plantillas = {
                     if (resultado.estatus === 'success') {
                         general.notify('<strong>Usuario verificado</strong><br />', "El usuario se encuentra registrado", resultado.estatus, true);
 
-
+                        
                         $('#nombre').val(resultado.datos.nombre + " " + resultado.datos.apellido);
                         var newOption = new Option($.trim(resultado.datos.secretaria).toUpperCase(), $.trim("0"), true, true);
                         $('#dependencia').append(newOption).trigger('change');
-
+                        $('#dependenciaName').val(resultado.datos.secretaria);
                         $('#departamento').val(resultado.datos.direccion);
 
 
@@ -613,8 +626,7 @@ var plantillas = {
     },
 
     resetForm: function () {        
-        window.location.href = '/mosere/simulador/listado';
-
+        window.location.href = '/mosere/resguardo/generar';
     },
 
     guardarPlantilla: function () {
@@ -869,8 +881,133 @@ var plantillas = {
          */
 
 
-    }
+    },
+    agregarRol: function (datos) {
+        
+                 
+        var datosRol = datos.split('|');
+            //console.log(datos);
+            var bandera = true;
+            var registros = plantillas.tblRoles.bootstrapTable('getData');
+            console.log(registros);
+            if(datos.length>0){
+       if (plantillas.tblRoles.bootstrapTable('getRowByUniqueId',parseInt(datosRol[0]) ) === null||parseInt(datosRol[0])===0) {
+                   
+                  
+                   
+                       for(var x in registros) {
+                          
+               if ($.trim(registros[x].rol) === datosRol[1]) {
+                                    //console.log(registros[x].rol+datosRol[1]);                                        
+                                    general.notify('<strong>Mensaje del sistema</strong><br />', 'El rol seleccionado ya se ha agregado previamente.', 'warning', true);
+                    bandera = false;
+                                    break;
+               }
+                               else{
+                                   
+                               }
+
+           
+           }
+                   if(bandera){
+                    /*var html = [];
+                    var count = 1;
+
+                    
+
+                    html.push("<div class='rol"+datosRol[1]+"'>");
+                    html.push("<input type='text' id='rol", count, "' value='"+datosRol[0]+"'>");
+                    html.push("<input type='text' id='rol", count, "' value='"+datosRol[1]+"'>");
+                    html.push("<input type='text' id='rol", count, "' value='"+datosRol[2]+"'>");
+                    html.push("<div/>");
+                    count += + 1;
+                    $('#sFormulario').append(html.join(''));*/
+                    
+                    if(idRoles === ""){
+                        idRoles = datosRol[0];
+                    }else{
+                        idRoles = idRoles+","+datosRol[0];
+                    }
+                                                        
+                    //console.log(idRoles);
+                    $("#idRoles").val(idRoles);
+
+           plantillas.tblRoles.bootstrapTable('insertRow', {
+               index: datosRol[0],
+               row: {
+                   id: datosRol[1],
+                   rol: datosRol[0],
+                   descripcion: datosRol[2]
+               }
+           });
+                   }
+           plantillas.cmbTxtRol.val('x').trigger('change');
+       } else {
+           general.notify('<strong>Mensaje del sistema</strong><br />', 'El rol seleccionado ya se ha agregado previamente.', 'warning', true);
+       }
+           
+       }
+       
+   },
+       
+       quitarRol: function (idIn) {
+       var id = $.base64.decode(idIn);
+       var datos = plantillas.tblRoles.bootstrapTable('getRowByUniqueId', id);
+
+            var nuevoIdroles = "";
+            var arrayDeCadenas = idRoles.split(",");
+            //console.log("valor a borrar "+ id);
+            
+            for (var i=0; i < arrayDeCadenas.length; i++) {
+                //console.log(arrayDeCadenas[i]);
+                if(id != arrayDeCadenas[i]){
+                    
+                    if(nuevoIdroles === ""){
+                        nuevoIdroles = arrayDeCadenas[i];
+                    }else{
+                        nuevoIdroles = nuevoIdroles+","+arrayDeCadenas[i];
+                    }
+                    
+                }
+                if(id === arrayDeCadenas[i] && arrayDeCadenas.length === 1){
+                    
+                    idRoles="";
+                }
+                
+                idRoles = nuevoIdroles;
+                
+             }
+
+           //$(".rol"+id).remove();
+
+            //console.log(idRoles);
+            $("#idRoles").val(idRoles);
+           
+
+       if (datos !== null) {
+           plantillas.tblRoles.bootstrapTable('removeByUniqueId', id);           
+   
+       } else {
+           general.notify('<strong>Mensaje del sistema</strong><br />', 'El rol seleccionado no se ha agregado previamente.', 'warning', true);
+       }
+   },
+   rolesFormatter: function (value, row, index) {
+   return [
+       '&nbsp;<a class="btn btn-danger btn-lg btn-xs" role="button" href="javascript:plantillas.quitarRol(\'' + $.base64.encode(row.rol) + '\');" data-toggle="tooltip" data-placement="top" title="Borrar Rol"><i class="glyphicon glyphicon-trash"></i></a>'
+   ].join('');
+},
+
+ sleep : function (milliseconds) {
+var start = new Date().getTime();
+for (var i = 0; i < 1e7; i++) {
+if ((new Date().getTime() - start) > milliseconds){
+ break;
+}
+}
+}
+       
 
 };
 
 plantillas.init();
+

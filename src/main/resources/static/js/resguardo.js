@@ -271,7 +271,7 @@ var resguardos = {
 
         }).on('success.form.fv', function (e) {
             e.preventDefault();
-        
+                
               if(resguardos.tblRoles.bootstrapTable('getData').length > 0){
              resguardos.guardarResguardo();
               }else{

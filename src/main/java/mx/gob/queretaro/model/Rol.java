@@ -49,10 +49,20 @@ public class Rol implements Serializable {
 	private List<RolSistema> rolSistemas;
 
 	public Rol() {
+
+	}
+
+	public Rol(Short idRol, String rol, String descripcion) {
+		this.idRol = idRol;
+		this.rol = rol;
+		this.descripcion = descripcion;
+	}
+
+	public Rol(String rol) {
+		this.rol = rol;
 	}
 
 	public Rol(Short idRol) {
-		super();
 		this.idRol = idRol;
 	}
 
@@ -131,6 +141,10 @@ public class Rol implements Serializable {
 
 	public void setRolSistemas(List<RolSistema> rolSistemas) {
 		this.rolSistemas = rolSistemas;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

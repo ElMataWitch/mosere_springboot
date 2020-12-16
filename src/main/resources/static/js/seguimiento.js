@@ -80,6 +80,7 @@ function eventosBotones() {
 
 function llenaTablaExpediente(jdatos) {
     if (jdatos != null) {
+        //console.log(jdatos);
         $("#tDatosResguardo").bootstrapTable('load', jdatos.datos);
         $("#tDatosResguardo").bootstrapTable('selectPage', 1);
         $("td").each(function () {
@@ -208,10 +209,10 @@ function tInfoFolioTodos(recibido) {
         // Le damos 30 segundos a la petición para recibir una respuesta
         timeout: 30000,
         // Hacemos una petición de tipo "GET"
-        type: "POST",
+        type: "GET",
         // La URL que vamos a consultar
-        url: "sSeguimiento?recibido=" + recibido
-    });
+        url: "../api/resguardo/obtenerRegResguardos?recibido="+recibido
+    });    
 }//fin tInformacion
 
 function verResguardo(fila) {

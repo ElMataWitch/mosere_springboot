@@ -9,6 +9,8 @@ function iniEtiqueta() {
 }
 
 function botones() {
+    
+
     iniEtiqueta();
 
     $('#tListaLeyendas').on('sort.bs.table', function (e) {
@@ -98,26 +100,27 @@ function llenaCamposEditar(id) {
     for (var i = 0; i < jdatos2.datos.length; i++) {
         reg = jdatos2.datos[i];        
         if (reg.idEtiqueta == id) { 
-            if(reg.posicion == "cabezal1"){                                
+            if(reg.posicion == "Encabezado"){                                
                 $('#encabezado').summernote('code', reg.descripcion);
             }
-            if(reg.posicion == "leyenda"){                
+            if(reg.posicion == "Leyenda"){                
                 $('#leyenda').summernote('code', reg.descripcion);
             }
-            if(reg.posicion == "apertura"){                                
+            if(reg.posicion == "Apertura"){                                
                 $('#apertura').summernote('code', reg.descripcion);
             }
-            if(reg.posicion == "cuerpo"){                
+            if(reg.posicion == "Cuerpo"){                
                 $('#cuerpo').summernote('code', reg.descripcion);
             } 
-            if(reg.posicion == "mensaje"){                                
+            if(reg.posicion == "Mensaje"){                                
                 $('#mensaje').summernote('code', reg.descripcion);
             }                    
                         
-            $("#apertura").val(reg.descripcion);  
+            /*$("#apertura").val(reg.descripcion);  
             $("#cuerpo").val(reg.descripcion);              
             $("#mensaje").val(reg.descripcion);
-            return;
+            */
+            //return;
         }
     }
 }
@@ -289,9 +292,45 @@ function tInfoListaComandos() {//recibe el listado de los comandos
     });
 }//fin tInformacion
 
+function jajaxPost(datos) {    
+    //console.log(datos);
+    console.log("si llegamos a la funcion");
+    $.ajax({
+        timeout: 40000,
+        type: "POST",
+        url: "../api/resguardo/guardar",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(datos),
+        error: function ajaxError(peticion, tipoError, excepcion) {
+            $("#divImgCargando").hide();
+            if (tipoError == "timeout") {
+                general.notify('<strong>Alerta</strong><br />', 'No se tiene respuesta con el servidor.\nFavor de intentarlo más tarde ', 'warning', true);
+            } else if (peticion.status == 500) {
+                general.notify('<strong>Alerta</strong><br />', 'Error en el servidor al ejecutar el servicio..\nFavor de intentarlo más tarde ', 'warning', true);
+            } else if (peticion.status == 404) {
+                general.notify('<strong>Alerta</strong><br />', 'No se encontro el servicio solictado.\nFavor de verificar.', 'warning', true);
+            } else if (tipoError == "parsererror") {
+                general.notify('<strong>Alerta</strong><br />', 'Error en la respuesta enviada del servidor.\nFavor de intentarlo más tarde ', 'warning', true);
+            } else {
+                general.notify('<strong>Alerta</strong><br />', 'Ocurrio un error al ejecutar el servicio.\nFavor de intentarlo más tarde ', 'warning', true);
+            }
+        },
+        scriptCharset: "utf-8",
+        success: function (json) {
+            if (json == "0") {
+                general.notify('<strong> Error!!</strong><br />', 'Ah ocurrido Un Error al Guardar/Actualizar la etiqueta', 'danger', true);
+                return;
+            }
+            general.notify('<strong> Éxito</strong><br />', 'Operación Realizada Con Éxito', 'success', true);            
+        }        
+    });
+}
+
 $(window).resize(function(){
     //funcSistemas();
     actionFormatter();
+    console._inspectorCommandLineAPI.clear() 
 });
 
 

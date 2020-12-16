@@ -42,10 +42,10 @@ public class Leyenda implements Serializable {
 	private Date fechaEdicion;
 
 	public Leyenda() {
+
 	}
 
-
-	//Select
+	// Select
 	public Leyenda(Short idLeyenda, String descripcion, String estatus, String usuarioCaptura, Date fechaCaptura,
 			String usuarioEditor, Date fechaEdicion) {
 		this.idLeyenda = idLeyenda;
@@ -56,8 +56,6 @@ public class Leyenda implements Serializable {
 		this.usuarioEditor = usuarioEditor;
 		this.fechaEdicion = fechaEdicion;
 	}
-
-
 
 	public Short getIdLeyenda() {
 		return idLeyenda;

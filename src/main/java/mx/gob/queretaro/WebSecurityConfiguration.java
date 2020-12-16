@@ -22,8 +22,10 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 		.antMatchers("/","/index*","*/css/**","/js/**","/img/**","/webjars/**").permitAll() //SIN AUTENTIFICACION
 		.antMatchers("/api/**").permitAll() //sin autentificacion
-		.antMatchers("/home*").hasAnyRole("ADMIN","USER") //CON AUTENTIFICACION
-		.antMatchers("/usuarios/**","/sistemas/**","/leyendas/**","/dependencias/**","/simulador/**","/resguardo/**").hasAnyRole("ADMIN") //CON AUTENTIFICACION Y SOLO ROL ADMIN
+		.antMatchers("/home*").hasAnyRole("ADMIN","USER","NORMATIVIDAD") //CON AUTENTIFICACION,"/resguardo/**"
+		.antMatchers("/resguardo/**").hasAnyRole("USER","ADMIN")
+		.antMatchers("/sistemas/**","/leyendas/**","/dependencias/**","/seguimiento/**","/roles/**").hasAnyRole("NORMATIVIDAD","ADMIN")
+		.antMatchers("/usuarios/**").hasAnyRole("ADMIN") //CON AUTENTIFICACION Y SOLO ROL ADMIN
 		.and()
 		.formLogin() // Login
 		.loginProcessingUrl("/login") // j_security_check
@@ -50,9 +52,9 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter{
 		auth
 		.inMemoryAuthentication()
 		.passwordEncoder(passwordEncoder())
-		.withUser("mosere").password(passwordEncoder().encode("1234")).roles("USER")
+		.withUser("user").password(passwordEncoder().encode("1234")).roles("USER")
 		.and()
-		.withUser("admin").password(passwordEncoder().encode("admin")).roles("USER","ADMIN")
+		.withUser("normatividad").password(passwordEncoder().encode("1234")).roles("NORMATIVIDAD")
 		.and()
 		.withUser("emw").password(passwordEncoder().encode("1234")).roles("USER","ADMIN")
 		;
